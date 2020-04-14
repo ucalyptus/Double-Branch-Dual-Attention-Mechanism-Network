@@ -11,9 +11,19 @@ import ast
 with open('pavia_bands30.txt', 'r') as f:
     BANDLIST = ast.literal_eval(f.read())
 
-def transform(ARRAY,BANDLIST):
+def pavia_transform(ARRAY,BANDLIST):
     
+    BANDLIST=BANDLIST[:15]    
     assert ARRAY.shape[2] ==103
+    tensor_list = []
+    for i in range(0,len(BANDLIST)):
+        tensor_list.append(ARRAY[:,:,BANDLIST[i]])
+    return np.stack(tensor_list,axis=2)
+
+def salinas_transform(ARRAY,BANDLIST):
+    
+    BANDLIST=BANDLIST[:25]    
+    assert ARRAY.shape[2] ==204
     tensor_list = []
     for i in range(0,len(BANDLIST)):
         tensor_list.append(ARRAY[:,:,BANDLIST[i]])
@@ -35,8 +45,9 @@ def load_dataset(Dataset):
         gt_uPavia = sio.loadmat('../datasets/PaviaU_gt.mat')
         data_hsi = uPavia['paviaU']
         gt_hsi = gt_uPavia['paviaU_gt']
+        data_hsi = pavia_transform(data_hsi,BANDLIST)
         TOTAL_SIZE = 42776
-        VALIDATION_SPLIT = 0.85
+        VALIDATION_SPLIT = 0.80
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
 
     if Dataset == 'PC':
@@ -53,6 +64,7 @@ def load_dataset(Dataset):
         gt_SV = sio.loadmat('../datasets/Salinas_gt.mat')
         data_hsi = SV['salinas_corrected']
         gt_hsi = gt_SV['salinas_gt']
+        data_hsi = salinas_transform(data_hsi,BANDLIST)
         TOTAL_SIZE = 54129
         VALIDATION_SPLIT = 0.95
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
