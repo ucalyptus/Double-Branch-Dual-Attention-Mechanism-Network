@@ -7,6 +7,17 @@ import math
 from Utils import extract_samll_cubic
 import torch.utils.data as Data
 
+import ast
+with open('salinas_bands30.txt', 'r') as f:
+    BANDLIST = ast.literal_eval(f.read())
+
+def transform(ARRAY,BANDLIST):
+    
+    assert ARRAY.shape[2] ==103
+    tensor_list = []
+    for i in range(0,len(BANDLIST)):
+        tensor_list.append(ARRAY[:,:,BANDLIST[i]])
+    return np.stack(tensor_list,axis=2)
 
 def load_dataset(Dataset):
     if Dataset == 'IN':
@@ -14,8 +25,9 @@ def load_dataset(Dataset):
         mat_gt = sio.loadmat('../datasets/Indian_pines_gt.mat')
         data_hsi = mat_data['indian_pines_corrected']
         gt_hsi = mat_gt['indian_pines_gt']
+        data_hsi = transform(data_hsi,BANDLIST)
         TOTAL_SIZE = 10249
-        VALIDATION_SPLIT = 0.97
+        VALIDATION_SPLIT = 0.95
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
 
     if Dataset == 'UP':
@@ -24,7 +36,7 @@ def load_dataset(Dataset):
         data_hsi = uPavia['paviaU']
         gt_hsi = gt_uPavia['paviaU_gt']
         TOTAL_SIZE = 42776
-        VALIDATION_SPLIT = 0.995
+        VALIDATION_SPLIT = 0.90
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
 
     if Dataset == 'PC':
@@ -33,7 +45,7 @@ def load_dataset(Dataset):
         data_hsi = uPavia['pavia']
         gt_hsi = gt_uPavia['pavia_gt']
         TOTAL_SIZE = 148152
-        VALIDATION_SPLIT = 0.999
+        VALIDATION_SPLIT = 0.995
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
 
     if Dataset == 'SV':
@@ -42,7 +54,7 @@ def load_dataset(Dataset):
         data_hsi = SV['salinas_corrected']
         gt_hsi = gt_SV['salinas_gt']
         TOTAL_SIZE = 54129
-        VALIDATION_SPLIT = 0.995
+        VALIDATION_SPLIT = 0.95
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
 
     if Dataset == 'KSC':
