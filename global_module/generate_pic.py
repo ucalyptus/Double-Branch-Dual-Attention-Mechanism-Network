@@ -8,7 +8,7 @@ from Utils import extract_samll_cubic
 import torch.utils.data as Data
 
 import ast
-with open('salinas_bands30.txt', 'r') as f:
+with open('pavia_bands30.txt', 'r') as f:
     BANDLIST = ast.literal_eval(f.read())
 
 def transform(ARRAY,BANDLIST):
