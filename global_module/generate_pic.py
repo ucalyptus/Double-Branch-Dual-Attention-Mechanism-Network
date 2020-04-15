@@ -8,7 +8,7 @@ from Utils import extract_samll_cubic
 import torch.utils.data as Data
 
 import ast
-with open('pavia_bands30.txt', 'r') as f:
+with open('sknet_indian30.txt', 'r') as f:
     BANDLIST = ast.literal_eval(f.read())
 
 def pavia_transform(ARRAY,BANDLIST):
@@ -24,6 +24,16 @@ def salinas_transform(ARRAY,BANDLIST):
     
     BANDLIST=BANDLIST[:25]    
     assert ARRAY.shape[2] ==204
+    tensor_list = []
+    for i in range(0,len(BANDLIST)):
+        tensor_list.append(ARRAY[:,:,BANDLIST[i]])
+    return np.stack(tensor_list,axis=2)
+
+
+def indian_transform(ARRAY,BANDLIST):
+    
+    BANDLIST=BANDLIST[:30]    
+    assert ARRAY.shape[2] ==200
     tensor_list = []
     for i in range(0,len(BANDLIST)):
         tensor_list.append(ARRAY[:,:,BANDLIST[i]])
@@ -47,16 +57,7 @@ def load_dataset(Dataset):
         gt_hsi = gt_uPavia['paviaU_gt']
         data_hsi = pavia_transform(data_hsi,BANDLIST)
         TOTAL_SIZE = 42776
-        VALIDATION_SPLIT = 0.80
-        TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
-
-    if Dataset == 'PC':
-        uPavia = sio.loadmat('../datasets/Pavia.mat')
-        gt_uPavia = sio.loadmat('../datasets/Pavia_gt.mat')
-        data_hsi = uPavia['pavia']
-        gt_hsi = gt_uPavia['pavia_gt']
-        TOTAL_SIZE = 148152
-        VALIDATION_SPLIT = 0.995
+        VALIDATION_SPLIT = 0.95
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
 
     if Dataset == 'SV':
@@ -67,24 +68,6 @@ def load_dataset(Dataset):
         data_hsi = salinas_transform(data_hsi,BANDLIST)
         TOTAL_SIZE = 54129
         VALIDATION_SPLIT = 0.95
-        TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
-
-    if Dataset == 'KSC':
-        KSC = sio.loadmat('../datasets/KSC.mat')
-        gt_KSC = sio.loadmat('../datasets/KSC_gt.mat')
-        data_hsi = KSC['KSC']
-        gt_hsi = gt_KSC['KSC_gt']
-        TOTAL_SIZE = 5211
-        VALIDATION_SPLIT = 0.95
-        TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
-
-    if Dataset == 'BS':
-        BS = sio.loadmat('../datasets/Botswana.mat')
-        gt_BS = sio.loadmat('../datasets/Botswana_gt.mat')
-        data_hsi = BS['Botswana']
-        gt_hsi = gt_BS['Botswana_gt']
-        TOTAL_SIZE = 3248
-        VALIDATION_SPLIT = 0.99
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
 
     return data_hsi, gt_hsi, TOTAL_SIZE, TRAIN_SIZE, VALIDATION_SPLIT
