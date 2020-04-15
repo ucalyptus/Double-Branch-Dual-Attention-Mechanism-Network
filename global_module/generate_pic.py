@@ -45,7 +45,7 @@ def load_dataset(Dataset):
         mat_gt = sio.loadmat('../datasets/Indian_pines_gt.mat')
         data_hsi = mat_data['indian_pines_corrected']
         gt_hsi = mat_gt['indian_pines_gt']
-        data_hsi = transform(data_hsi,BANDLIST)
+        data_hsi = indian_transform(data_hsi,BANDLIST)
         TOTAL_SIZE = 10249
         VALIDATION_SPLIT = 0.95
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
