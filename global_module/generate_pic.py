@@ -8,7 +8,8 @@ from Utils import extract_samll_cubic
 import torch.utils.data as Data
 
 import ast
-with open('sknet_indian30.txt', 'r') as f:
+filename = input("Enter filename")
+with open(filename, 'r') as f:
     BANDLIST = ast.literal_eval(f.read())
 
 def pavia_transform(ARRAY,BANDLIST):
@@ -22,7 +23,7 @@ def pavia_transform(ARRAY,BANDLIST):
 
 def salinas_transform(ARRAY,BANDLIST):
     
-    BANDLIST=BANDLIST[:25]    
+    BANDLIST=BANDLIST[:20]    
     assert ARRAY.shape[2] ==204
     tensor_list = []
     for i in range(0,len(BANDLIST)):
@@ -32,7 +33,7 @@ def salinas_transform(ARRAY,BANDLIST):
 
 def indian_transform(ARRAY,BANDLIST):
     
-    BANDLIST=BANDLIST[:30]    
+    BANDLIST=BANDLIST[:25]    
     assert ARRAY.shape[2] ==200
     tensor_list = []
     for i in range(0,len(BANDLIST)):
