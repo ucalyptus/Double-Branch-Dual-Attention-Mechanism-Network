@@ -1,21 +1,4 @@
-# Hyperspectral Image Classification
 
-**Apology:** The crucial and lastest implements about the frameworks are on the laboratorial computer, which is located in Wuhan University. Since 2019-nCoV is raging in Wuhan now, we can't get access to the laboratory now. It exists certain diffierences between the lastest files and the uploaded files. But we will updata the code immediately when we could obtain the files. Pray for Wuhan.
-
-This repository implementates 6 frameworks for hyperspectral image classification based on PyTorch and sklearn.
-
-The detailed results can be seen in the [Classification of Hyperspectral Image Based on 
-Double-Branch Dual-Attention Mechanism Network](https://www.mdpi.com/2072-4292/12/3/582).
-
-Feel free to contact me if you need any further information: lironui@whu.edu.cn.
-
-Some of our code references the projects
-* [Dual-Attention-Network](https://github.com/SH8899/Dual-Attention-Network.git)
-* [Remote sensing image classification](https://github.com/stop68/Remote-Sensing-Image-Classification.git)
-* [A Fast Dense Spectral-Spatial Convolution Network Framework for Hyperspectral Images Classification](https://github.com/shuguang-52/FDSSC.git) 
-
-If our code is helpful to you, please cite
-`Li R, Zheng S, Duan C, et al. Classification of Hyperspectral Image Based on Double-Branch Dual-Attention Mechanism Network[J]. Remote Sensing, 2020, 12(3): 582.`
 
 
 Requirements：
@@ -50,18 +33,3 @@ Figure 1. The structure of the DBDA network. The upper Spectral Branch composed 
 spectral block and channel attention block is designed to capture spectral features. The lower Spatial 
 Branch constituted by dense spatial block, and spatial attention block is designed to exploit spatial 
 features. 
-
-Results:
-------- 
-![IP](https://github.com/lironui/Double-Branch-Dual-Attention-Mechanism-Network/blob/master/figures/Figure%209.%20Classi%EF%AC%81cation%20maps%20for%20the%20IP%20dataset%20using%203%25%20training%20samples.png)
-Figure 2. Classiﬁcation maps for the IP dataset using 3% training samples. (a) False-color image. (b) 
-Ground-truth (GT). (c)–(h) The classiﬁcation maps with disparate algorithms. 
-![UP](https://github.com/lironui/Double-Branch-Dual-Attention-Mechanism-Network/blob/master/figures/Figure%2010.%20Classi%EF%AC%81cation%20maps%20for%20the%20UP%20dataset%20using%200.5%25%20training%20samples.png)
-Figure 3. Classiﬁcation maps for the UP dataset using 0.5% training samples. (a) False-color image. 
-(b) Ground-truth (GT). (c)–(h) The classiﬁcation maps with disparate algorithms. 
-![SV](https://github.com/lironui/Double-Branch-Dual-Attention-Mechanism-Network/blob/master/figures/Figure%2011.%20Classi%EF%AC%81cation%20maps%20for%20the%20SV%20dataset%20using%200.5%25%20training%20samples.png)
-Figure 4. Classiﬁcation maps for the UP dataset using 0.5% training samples. (a) False-color image. 
-(b) Ground-truth (GT). (c)–(h) The classiﬁcation maps with disparate algorithms. 
-![BS](https://github.com/lironui/Double-Branch-Dual-Attention-Mechanism-Network/blob/master/figures/Figure%2012.%20Classi%EF%AC%81cation%20maps%20for%20the%20BS%20dataset%20using%201.2%25%20training%20samples.png)
-Figure 5. Classiﬁcation maps for the BS dataset using 1.2% training samples. (a) False-color image. 
-(b) Ground-truth (GT). (c)–(h) The classiﬁcation maps with disparate algorithms. 
