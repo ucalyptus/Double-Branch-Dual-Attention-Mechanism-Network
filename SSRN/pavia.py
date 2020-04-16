@@ -11,7 +11,7 @@ sys.path.append('../global_module/')
 import network
 import train
 from generate_pic import aa_and_each_accuracy, sampling,load_dataset, generate_png, generate_iter
-from Utils import fdssc_model, record, extract_samll_cubic
+from Utils import record, extract_samll_cubic
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -39,7 +39,7 @@ CLASSES_NUM = max(gt)
 print('The class numbers of the HSI data is:', CLASSES_NUM)
 
 print('-----Importing Setting Parameters-----')
-ITER = 1
+ITER = int(input("Enter num of iterations"))
 PATCH_LENGTH = 3
 # number of training samples per class
 #lr, num_epochs, batch_size = 0.0001, 200, 32
