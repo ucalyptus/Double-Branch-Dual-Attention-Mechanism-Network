@@ -9,6 +9,12 @@ import torch.utils.data as Data
 
 import ast
 filename = input("Enter filename")
+split = float(input("Enter VALIDATION_SPLIT")) 
+
+if split > 1.00 or split <= 0.05:
+    print("Split was wrong, defaulting to 0.95")
+    split=0.95
+    
 with open(filename, 'r') as f:
     BANDLIST = ast.literal_eval(f.read())
 
@@ -48,7 +54,7 @@ def load_dataset(Dataset):
         gt_hsi = mat_gt['indian_pines_gt']
         data_hsi = indian_transform(data_hsi,BANDLIST)
         TOTAL_SIZE = 10249
-        VALIDATION_SPLIT = 0.95
+        VALIDATION_SPLIT = split
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
 
     if Dataset == 'UP':
@@ -58,7 +64,7 @@ def load_dataset(Dataset):
         gt_hsi = gt_uPavia['paviaU_gt']
         data_hsi = pavia_transform(data_hsi,BANDLIST)
         TOTAL_SIZE = 42776
-        VALIDATION_SPLIT = 0.95
+        VALIDATION_SPLIT = split
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
 
     if Dataset == 'SV':
@@ -68,7 +74,7 @@ def load_dataset(Dataset):
         gt_hsi = gt_SV['salinas_gt']
         data_hsi = salinas_transform(data_hsi,BANDLIST)
         TOTAL_SIZE = 54129
-        VALIDATION_SPLIT = 0.95
+        VALIDATION_SPLIT = split
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
 
     return data_hsi, gt_hsi, TOTAL_SIZE, TRAIN_SIZE, VALIDATION_SPLIT
