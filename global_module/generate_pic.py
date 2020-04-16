@@ -7,7 +7,14 @@ import math
 from Utils import extract_samll_cubic
 import torch.utils.data as Data
 
+
 import ast
+import os
+mydir = "/content/Double-Branch-Dual-Attention-Mechanism-Network/"
+for file in os.listdir(mydir):
+    if file.endswith(".txt"):
+        print(os.path.join(mydir, file))
+        
 filename = input("Enter filename")
 split = float(input("Enter VALIDATION_SPLIT")) 
 
