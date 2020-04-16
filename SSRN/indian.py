@@ -11,7 +11,7 @@ sys.path.append('../global_module/')
 import network
 import train
 from generate_pic import aa_and_each_accuracy, sampling,load_dataset, generate_png, generate_iter
-from Utils import fdssc_model, record, extract_samll_cubic
+from Utils import record, extract_samll_cubic
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
