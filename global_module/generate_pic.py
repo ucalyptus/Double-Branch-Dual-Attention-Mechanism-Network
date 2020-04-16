@@ -10,7 +10,7 @@ import torch.utils.data as Data
 
 import ast
 import os
-mydir = "/content/Double-Branch-Dual-Attention-Mechanism-Network/"
+mydir = "/content/Double-Branch-Dual-Attention-Mechanism-Network/SSRN/"
 for file in os.listdir(mydir):
     if file.endswith(".txt"):
         print(os.path.join(mydir, file))
