@@ -125,3 +125,5 @@ record.record_output(OA, AA, KAPPA, ELEMENT_ACC, TRAINING_TIME, TESTING_TIME,
 
 
 generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices)
+print("location=",end=" ")
+print("./records/"+ net.name + '_' + Dataset + 'split：' + str(VALIDATION_SPLIT) + 'lr：' + str(lr) + '.txt')
