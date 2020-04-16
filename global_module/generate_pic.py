@@ -13,10 +13,10 @@ import os
 mydir = "/content/Double-Branch-Dual-Attention-Mechanism-Network/SSRN/"
 for file in os.listdir(mydir):
     if file.endswith(".txt"):
-        print(os.path.join(mydir, file))
+        print(file)
         
-filename = input("Enter filename")
-split = float(input("Enter VALIDATION_SPLIT")) 
+filename = input("Enter filename ")
+split = float(input("Enter VALIDATION_SPLIT ")) 
 
 if split > 1.00 or split <= 0.05:
     print("Split was wrong, defaulting to 0.95")
