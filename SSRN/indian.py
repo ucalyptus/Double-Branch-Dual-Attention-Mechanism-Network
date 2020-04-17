@@ -122,7 +122,7 @@ for index_iter in range(ITER):
 
 print("--------" + net.name + " Training Finished-----------")
 record.record_output(OA, AA, KAPPA, ELEMENT_ACC, TRAINING_TIME, TESTING_TIME,
-                     'records/' + net.name + '_' + Dataset + 'split：' + str(VALIDATION_SPLIT) + 'lr：' + str(lr) + '.txt')
+                     'records/' + method + '_' + Dataset + 'split：' + str(VALIDATION_SPLIT)  + '.txt')
 
 
 generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices)
