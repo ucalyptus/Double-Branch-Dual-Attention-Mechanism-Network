@@ -91,7 +91,7 @@ def load_dataset(Dataset):
         TOTAL_SIZE = 54129
         VALIDATION_SPLIT = split
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
-
+    filename=filename.split(".")[0]
     return data_hsi, gt_hsi, TOTAL_SIZE, TRAIN_SIZE, VALIDATION_SPLIT,filename
 
 def save_cmap(img, cmap, fname):
