@@ -22,11 +22,11 @@ if split > 1.00 or split <= 0.05:
     print("Split was wrong, defaulting to 0.95")
     split=0.95
 
-nbands = int(input("Enter choice of bands "))
+nbands = int(input("Select Number of bands "))
 
 with open(filename, 'r') as f:
     BANDLIST = ast.literal_eval(f.read())
-if nbands > len(BANDLIST) or nbands < 5:
+if nbands > len(BANDLIST) or nbands < 4:
     BANDLIST = None
     
     
