@@ -11,9 +11,9 @@ def record_output(oa_ae, aa_ae, kappa_ae, element_acc_ae, training_time_ae, test
     f.write(sentence1)
     sentence2 = 'KAPPAs for each iteration are:' + str(kappa_ae) + '\n' + '\n'
     f.write(sentence2)
-    sentence3 = 'mean_OA ± std_OA is: ' + str(np.mean(oa_ae)) + ' ± ' + str(np.std(oa_ae)) + '\n'
+    sentence3 = 'mean_OA ± std_OA is: ' + str(np.mean(oa_ae)*100) + ' ± ' + str(np.std(oa_ae)*100) + '\n'
     f.write(sentence3)
-    sentence4 = 'mean_AA ± std_AA is: ' + str(np.mean(aa_ae)) + ' ± ' + str(np.std(aa_ae)) + '\n'
+    sentence4 = 'mean_AA ± std_AA is: ' + str(np.mean(aa_ae)*100) + ' ± ' + str(np.std(aa_ae)*100) + '\n'
     f.write(sentence4)
     sentence5 = 'mean_KAPPA ± std_KAPPA is: ' + str(np.mean(kappa_ae)) + ' ± ' + str(np.std(kappa_ae)) + '\n' + '\n'
     f.write(sentence5)
@@ -24,9 +24,9 @@ def record_output(oa_ae, aa_ae, kappa_ae, element_acc_ae, training_time_ae, test
 
     element_mean = np.mean(element_acc_ae, axis=0)
     element_std = np.std(element_acc_ae, axis=0)
-    sentence8 = "Mean of all elements in confusion matrix: " + str(element_mean) + '\n'
+    sentence8 = "Mean of all elements in confusion matrix: " + str(element_mean*100) + '\n'
     f.write(sentence8)
-    sentence9 = "Standard deviation of all elements in confusion matrix: " + str(element_std) + '\n'
+    sentence9 = "Standard deviation of all elements in confusion matrix: " + str(element_std*100) + '\n'
     f.write(sentence9)
 
     f.close()
