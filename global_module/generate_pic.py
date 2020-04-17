@@ -26,7 +26,7 @@ nbands = int(input("Select Number of bands "))
 
 with open(filename, 'r') as f:
     BANDLIST = ast.literal_eval(f.read())
-if nbands > len(BANDLIST) or nbands < 4:
+if nbands > len(BANDLIST) or nbands < 10:
     BANDLIST = None
     
     
