@@ -122,10 +122,10 @@ for index_iter in range(ITER):
 
 print("--------" + net.name + " Training Finished-----------")
 record.record_output(OA, AA, KAPPA, ELEMENT_ACC, TRAINING_TIME, TESTING_TIME,
-                     'records/' + method + '_' + Dataset + str(BAND) + str(VALIDATION_SPLIT)  + '.txt')
+                     'records/' + method + '_' + Dataset + '_' +str(BAND)+ '_'  + str(VALIDATION_SPLIT)  + '.txt')
 
 
 generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices)
 print("location=\"",end="")
-print("./records/"+ method + '_' + Dataset + str(BAND) + str(VALIDATION_SPLIT)  + '.txt',end="")
+print("./records/"+ method + '_' + Dataset + '_' +str(BAND)+ '_'  + str(VALIDATION_SPLIT)  + '.txt',end="")
 print("\"")
