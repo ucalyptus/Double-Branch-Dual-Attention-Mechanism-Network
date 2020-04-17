@@ -26,10 +26,10 @@ print('-----Importing Dataset-----')
 
 
 
-global Dataset  # UP,IN,KSC
+global Dataset  # IN,UP,SV
 dataset = 'UP'
 Dataset = dataset.upper()
-data_hsi, gt_hsi, TOTAL_SIZE, TRAIN_SIZE,VALIDATION_SPLIT = load_dataset(Dataset)
+data_hsi, gt_hsi, TOTAL_SIZE, TRAIN_SIZE,VALIDATION_SPLIT,method = load_dataset(Dataset)
 
 print(data_hsi.shape)
 image_x, image_y, BAND = data_hsi.shape
@@ -39,7 +39,7 @@ CLASSES_NUM = max(gt)
 print('The class numbers of the HSI data is:', CLASSES_NUM)
 
 print('-----Importing Setting Parameters-----')
-ITER = int(input("Enter num of iterations"))
+ITER = int(input("Enter num of iterations "))
 PATCH_LENGTH = 3
 # number of training samples per class
 #lr, num_epochs, batch_size = 0.0001, 200, 32
@@ -69,6 +69,7 @@ padded_data = np.lib.pad(whole_data, ((PATCH_LENGTH, PATCH_LENGTH), (PATCH_LENGT
                          'constant', constant_values=0)
 
 for index_iter in range(ITER):
+    print(f"ITER : {index_iter}")
     net = network.SSRN_network(BAND, CLASSES_NUM)
     optimizer = optim.Adam(net.parameters(), lr=lr)  # , weight_decay=0.0001)
     time_1 = int(time.time())
@@ -97,7 +98,7 @@ for index_iter in range(ITER):
     with torch.no_grad():
         for X, y in test_iter:
             X = X.to(device)
-            net.eval()  # 评估模式, 这会关闭dropout
+            net.eval() 
             y_hat = net(X)
             # print(net(X))
             pred_test_fdssc.extend(np.array(net(X).cpu().argmax(axis=1)))
@@ -121,7 +122,10 @@ for index_iter in range(ITER):
 
 print("--------" + net.name + " Training Finished-----------")
 record.record_output(OA, AA, KAPPA, ELEMENT_ACC, TRAINING_TIME, TESTING_TIME,
-                     'records/' + net.name + '_' + Dataset + 'split：' + str(VALIDATION_SPLIT) + 'lr：' + str(lr) + '.txt')
+                     'records/' + method + '_' + Dataset + 'str(BAND)' + str(VALIDATION_SPLIT)  + '.txt')
 
 
 generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices)
+print("location=\"",end=" ")
+print("./records/"+ method + '_' + Dataset + 'str(BAND)' + str(VALIDATION_SPLIT)  + '.txt',end=" ")
+print("\"")
