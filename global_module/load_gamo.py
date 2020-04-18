@@ -63,5 +63,6 @@ class HyperSpectralDataset(Dataset):
 data_train = HyperSpectralDataset('/content/drive/My Drive/X_indianPines.mat','/content/drive/My Drive/Y_indianPines.mat',16)
 train_loader = DataLoader(data_train, batch_size=16, shuffle=True)
   
-
+print(data_train.__getitem__(0)[0].shape)
+print(data_train.__len__())
 
