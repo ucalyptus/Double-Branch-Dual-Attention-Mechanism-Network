@@ -42,7 +42,7 @@ lr, num_epochs, batch_size = 0.0005, 200, 16
 loss = torch.nn.CrossEntropyLoss()
 
 INPUT_DIMENSION = 25
-ALL_SIZE ,TRAIN_SIZE = 39280,39280 
+ALL_SIZE ,TOTAL_SIZE = 39280,39280 
 VAL_SIZE = int(TRAIN_SIZE)
 TEST_SIZE = TOTAL_SIZE - TRAIN_SIZE
 
