@@ -27,21 +27,19 @@ global Dataset  # UP,IN,KSC
 dataset = 'IN'
 Dataset = dataset.upper()
 import scipy.io as sio
-gt = np.array(sio.loadmat(label_url)['Y']).transpose(axis=1)
+gt = np.array(sio.loadmat(label_url)['Y'])
+gt = gt.transpose(1,0)
 gt = gt.reshape(-1)
 CLASSES_NUM = 16
 print('The class numbers of the HSI data is:', CLASSES_NUM)
 
 print('-----Importing Setting Parameters-----')
 ITER = int(input("Enter num of iterations "))
-PATCH_LENGTH = 2
+
 # number of training samples per class
 #lr, num_epochs, batch_size = 0.0001, 200, 32
 lr, num_epochs, batch_size = 0.0005, 200, 16
 loss = torch.nn.CrossEntropyLoss()
-
-img_rows = 2*PATCH_LENGTH+1
-img_cols = 2*PATCH_LENGTH+1
 
 INPUT_DIMENSION = 25
 ALL_SIZE ,TRAIN_SIZE = 39280,39280 
