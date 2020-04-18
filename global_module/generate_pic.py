@@ -158,6 +158,7 @@ def generate_iter(TRAIN_SIZE, train_indices, TEST_SIZE, test_indices, TOTAL_SIZE
        #                                                PATCH_LENGTH, padded_data, INPUT_DIMENSION)
     #x_train = train_data.reshape(train_data.shape[0], train_data.shape[1], train_data.shape[2], INPUT_DIMENSION)
     #x_test_all = test_data.reshape(test_data.shape[0], test_data.shape[1], test_data.shape[2], INPUT_DIMENSION)
+    print(TOTAL_SIZE)
     all_data = X[:-TOTAL_SIZE]
     x_test_all = all_data[-TEST_SIZE:]
     x_train = all_data[:-TEST_SIZE]
@@ -170,10 +171,9 @@ def generate_iter(TRAIN_SIZE, train_indices, TEST_SIZE, test_indices, TOTAL_SIZE
     
     # x_train.shape is TRAIN_SIZE,5,5,25,1
     
-    print(all_data.shape)
+    
     x1_tensor_train = torch.from_numpy(x_train).type(torch.FloatTensor).squeeze(4).unsqueeze(1)
     y1_tensor_train = torch.from_numpy(y_train).type(torch.FloatTensor)
-    print(x1_tensor_train.shape,y1_tensor_train.shape)
     torch_dataset_train = Data.TensorDataset(x1_tensor_train, y1_tensor_train)
 
     x1_tensor_valida = torch.from_numpy(x_val).type(torch.FloatTensor).squeeze(4).unsqueeze(1)
