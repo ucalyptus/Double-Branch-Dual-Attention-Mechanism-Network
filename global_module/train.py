@@ -40,6 +40,7 @@ def train(net, train_iter, valida_iter, loss, optimizer, device, epochs=30, earl
         lr_adjust = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, 15, eta_min=0.0, last_epoch=-1)
         for X, y in train_iter:
             batch_count, train_l_sum = 0, 0
+            print(X.shape)
             X = X.to(device)
             y = y.to(device)
             y_hat = net(X)
