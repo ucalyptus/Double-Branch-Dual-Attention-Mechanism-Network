@@ -31,7 +31,7 @@ gt = np.array(sio.loadmat(label_url)['Y'])
 gt = gt.transpose(1,0)
 gt = gt.reshape(-1)
 CLASSES_NUM = 16
-print(f"The class numbers of the HSI data is: {}"CLASSES_NUM)
+print(f"The class numbers of the HSI data is: {}",CLASSES_NUM)
 
 print('-----Importing Setting Parameters-----')
 ITER = int(input("Enter num of iterations "))
