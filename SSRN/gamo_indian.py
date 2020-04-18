@@ -31,7 +31,7 @@ gt = np.array(sio.loadmat(label_url)['Y'])
 gt = gt.transpose(1,0)
 gt = gt.reshape(-1)
 CLASSES_NUM = 16
-print('The class numbers of the HSI data is:', CLASSES_NUM)
+print(f"The class numbers of the HSI data is: {}"CLASSES_NUM)
 
 print('-----Importing Setting Parameters-----')
 ITER = int(input("Enter num of iterations "))
@@ -40,9 +40,10 @@ ITER = int(input("Enter num of iterations "))
 #lr, num_epochs, batch_size = 0.0001, 200, 32
 lr, num_epochs, batch_size = 0.0005, 200, 16
 loss = torch.nn.CrossEntropyLoss()
-
+VALIDATION_SPLIT = 0.95
 INPUT_DIMENSION = 25
 ALL_SIZE ,TOTAL_SIZE = 39280,39280 
+TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
 VAL_SIZE = int(TRAIN_SIZE)
 TEST_SIZE = TOTAL_SIZE - TRAIN_SIZE
 
