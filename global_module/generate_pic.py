@@ -21,8 +21,10 @@ split = float(input("Enter VALIDATION_SPLIT "))
 if split > 1.00 or split <= 0.05:
     print("Split was wrong, defaulting to 0.95")
     split=0.95
-if filename is "All":
+
+if filename=="All":
     allband=True
+
 else:
     nbands = int(input("Select Number of bands "))
 
