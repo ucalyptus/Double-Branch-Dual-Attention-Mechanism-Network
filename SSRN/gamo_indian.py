@@ -62,7 +62,7 @@ for index_iter in range(ITER):
     np.random.seed(seeds[index_iter])
     train_indices, test_indices = sampling(VALIDATION_SPLIT, gt)
     _, total_indices = sampling(1, gt)
-
+    assert(len(train_indices)+len(test_indices)==len(total_indices))
     TRAIN_SIZE = len(train_indices)
     print('Train size: ', TRAIN_SIZE)
     TEST_SIZE = TOTAL_SIZE - TRAIN_SIZE
