@@ -149,7 +149,9 @@ def generate_iter(TRAIN_SIZE, train_indices, TEST_SIZE, test_indices, TOTAL_SIZE
     y_train = Y[train_indices] -1
     y_test = Y[test_indices] -1
     
-    print(total_indices,train_indices,test_indices)
+    print(len(total_indices))
+    print(len(train_indices))
+    print(len(test_indices))
     print(TOTAL_SIZE,TRAIN_SIZE,TEST_SIZE)
     print(VAL_SIZE)
     
