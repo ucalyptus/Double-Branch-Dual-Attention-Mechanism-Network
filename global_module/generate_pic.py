@@ -169,8 +169,10 @@ def generate_iter(TRAIN_SIZE, train_indices, TEST_SIZE, test_indices, TOTAL_SIZE
     y_test = y_test[:-VAL_SIZE]
     
     # x_train.shape is TRAIN_SIZE,5,5,25,1
+    
     x1_tensor_train = torch.from_numpy(x_train).type(torch.FloatTensor).squeeze(4).unsqueeze(1)
     y1_tensor_train = torch.from_numpy(y_train).type(torch.FloatTensor)
+    print(x1_tensor_train.shape,y1_tensor_train.shape)
     torch_dataset_train = Data.TensorDataset(x1_tensor_train, y1_tensor_train)
 
     x1_tensor_valida = torch.from_numpy(x_val).type(torch.FloatTensor).squeeze(4).unsqueeze(1)
