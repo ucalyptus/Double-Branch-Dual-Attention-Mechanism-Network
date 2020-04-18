@@ -170,6 +170,7 @@ def generate_iter(TRAIN_SIZE, train_indices, TEST_SIZE, test_indices, TOTAL_SIZE
     
     # x_train.shape is TRAIN_SIZE,5,5,25,1
     
+    print(x_train.shape)
     x1_tensor_train = torch.from_numpy(x_train).type(torch.FloatTensor).squeeze(4).unsqueeze(1)
     y1_tensor_train = torch.from_numpy(y_train).type(torch.FloatTensor)
     print(x1_tensor_train.shape,y1_tensor_train.shape)
