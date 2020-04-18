@@ -21,23 +21,19 @@ ensemble = 1
 
 print('-----Importing Dataset-----')
 
-
+label_url = '/content/drive/My Drive/Y_indianPines.mat'
 
 global Dataset  # UP,IN,KSC
 dataset = 'IN'
 Dataset = dataset.upper()
-data_hsi, gt_hsi, TOTAL_SIZE, TRAIN_SIZE,VALIDATION_SPLIT,method = load_dataset(Dataset)
-
-print(data_hsi.shape)
-image_x, image_y, BAND = data_hsi.shape
-data = data_hsi.reshape(np.prod(data_hsi.shape[:2]), np.prod(data_hsi.shape[2:]))
-gt = gt_hsi.reshape(np.prod(gt_hsi.shape[:2]),)
-CLASSES_NUM = max(gt)
+import scipy.io as sio
+gt = np.array(sio.loadmat(label_url)['Y']).transpose(axis=1)
+CLASSES_NUM = 16
 print('The class numbers of the HSI data is:', CLASSES_NUM)
 
 print('-----Importing Setting Parameters-----')
 ITER = int(input("Enter num of iterations "))
-PATCH_LENGTH = 3
+PATCH_LENGTH = 2
 # number of training samples per class
 #lr, num_epochs, batch_size = 0.0001, 200, 32
 lr, num_epochs, batch_size = 0.0005, 200, 16
@@ -45,9 +41,9 @@ loss = torch.nn.CrossEntropyLoss()
 
 img_rows = 2*PATCH_LENGTH+1
 img_cols = 2*PATCH_LENGTH+1
-img_channels = data_hsi.shape[2]
-INPUT_DIMENSION = data_hsi.shape[2]
-ALL_SIZE = data_hsi.shape[0] * data_hsi.shape[1]
+
+INPUT_DIMENSION = 25
+ALL_SIZE ,TRAIN_SIZE = 39280,39280 
 VAL_SIZE = int(TRAIN_SIZE)
 TEST_SIZE = TOTAL_SIZE - TRAIN_SIZE
 
@@ -59,15 +55,9 @@ TRAINING_TIME = []
 TESTING_TIME = []
 ELEMENT_ACC = np.zeros((ITER, CLASSES_NUM))
 
-data = preprocessing.scale(data)
-data_ = data.reshape(data_hsi.shape[0], data_hsi.shape[1], data_hsi.shape[2])
-whole_data = data_
-padded_data = np.lib.pad(whole_data, ((PATCH_LENGTH, PATCH_LENGTH), (PATCH_LENGTH, PATCH_LENGTH), (0, 0)),
-                         'constant', constant_values=0)
-
 for index_iter in range(ITER):
     print(f"ITER : {index_iter+1}")
-    net = network.SSRN_network(BAND, CLASSES_NUM)
+    net = network.SSRN_network(25, CLASSES_NUM)
     optimizer = optim.Adam(net.parameters(), lr=lr)  # , weight_decay=0.0001)
     time_1 = int(time.time())
     np.random.seed(seeds[index_iter])
@@ -83,8 +73,8 @@ for index_iter in range(ITER):
 
     print('-----Selecting Small Pieces from the Original Cube Data-----')
 
-    train_iter, valida_iter, test_iter, all_iter = generate_iter(TRAIN_SIZE, train_indices, TEST_SIZE, test_indices, TOTAL_SIZE, total_indices, VAL_SIZE,
-                  whole_data, PATCH_LENGTH, padded_data, INPUT_DIMENSION, batch_size, gt)
+    train_iter, valida_iter, test_iter, all_iter = generate_iter(TRAIN_SIZE, train_indices, TEST_SIZE , test_indices, TOTAL_SIZE, total_indices, VAL_SIZE,
+                   INPUT_DIMENSION, batch_size, gt,'/content/drive/My Drive/X_indianPines.mat',label_url)
     
     tic1 = time.clock()
     train.train(net, train_iter, valida_iter, loss, optimizer, device, epochs=num_epochs)
@@ -120,10 +110,10 @@ for index_iter in range(ITER):
 
 print("--------" + net.name + " Training Finished-----------")
 record.record_output(OA, AA, KAPPA, ELEMENT_ACC, TRAINING_TIME, TESTING_TIME,
-                     'records/' + method + '_' + Dataset + '_' +str(BAND)+ '_'  + str(VALIDATION_SPLIT)  + '.txt')
+                     'records/' + 'GAMO' + '_' + Dataset + '_' +'25'+ '_'  + str(VALIDATION_SPLIT)  + '.txt')
 
 
 generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices)
 print("location=\"",end="")
-print("./records/"+ method + '_' + Dataset + '_' +str(BAND)+ '_'  + str(VALIDATION_SPLIT)  + '.txt',end="")
+print("./records/" + 'GAMO' + '_' + Dataset + '_' +'25'+ '_'   + str(VALIDATION_SPLIT)  + '.txt',end="")
 print("\"")
