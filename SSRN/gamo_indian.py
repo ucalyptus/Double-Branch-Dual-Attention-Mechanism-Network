@@ -10,7 +10,7 @@ import sys
 sys.path.append('../global_module/')
 import network
 import train
-from generate_pic import aa_and_each_accuracy, sampling,load_dataset, generate_png, generate_iter,load_gamo
+from generate_pic import aa_and_each_accuracy, sampling, generate_png, generate_iter
 from Utils import record, extract_samll_cubic
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -28,6 +28,7 @@ dataset = 'IN'
 Dataset = dataset.upper()
 import scipy.io as sio
 gt = np.array(sio.loadmat(label_url)['Y']).transpose(axis=1)
+gt = gt.reshape(-1)
 CLASSES_NUM = 16
 print('The class numbers of the HSI data is:', CLASSES_NUM)
 
