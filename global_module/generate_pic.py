@@ -168,7 +168,7 @@ def generate_iter(TRAIN_SIZE, train_indices, TEST_SIZE, test_indices, TOTAL_SIZE
 
     x_test = x_test_all[:-VAL_SIZE]
     y_test = y_test[:-VAL_SIZE]
-    
+    print(x_test.shape,y_test.shape)
     # x_train.shape is TRAIN_SIZE,5,5,25,1
     
     
