@@ -20,7 +20,7 @@ seeds = [1331, 1332, 1333, 1334, 1335, 1336, 1337, 1338, 1339, 1340, 1341]
 ensemble = 1
 
 print('-----Importing Dataset-----')
-
+data_url = '/content/drive/My Drive/X_indianPines.mat'
 label_url = '/content/drive/My Drive/Y_indianPines.mat'
 
 global Dataset  # UP,IN,KSC
@@ -43,10 +43,7 @@ lr, num_epochs, batch_size = 0.0005, 200, 16
 loss = torch.nn.CrossEntropyLoss()
 VALIDATION_SPLIT = 0.95
 INPUT_DIMENSION = 25
-ALL_SIZE ,TOTAL_SIZE = 39280,39280 
-
-
-
+TOTAL_SIZE = 39280
 KAPPA = []
 OA = []
 AA = []
@@ -60,9 +57,9 @@ for index_iter in range(ITER):
     optimizer = optim.Adam(net.parameters(), lr=lr)  # , weight_decay=0.0001)
     time_1 = int(time.time())
     np.random.seed(seeds[index_iter])
+    print(gt.shape)
     train_indices, test_indices = sampling(VALIDATION_SPLIT, gt)
     _, total_indices = sampling(1, gt)
-    assert(len(train_indices)+len(test_indices)==len(total_indices))
     TRAIN_SIZE = len(train_indices)
     print('Train size: ', TRAIN_SIZE)
     TEST_SIZE = TOTAL_SIZE - TRAIN_SIZE
@@ -71,9 +68,9 @@ for index_iter in range(ITER):
     print('Validation size: ', VAL_SIZE)
 
     print('-----Selecting Small Pieces from the Original Cube Data-----')
-
+    print(len(total_indices))
     train_iter, valida_iter, test_iter, all_iter = generate_iter(TRAIN_SIZE, train_indices, TEST_SIZE , test_indices, TOTAL_SIZE, total_indices, VAL_SIZE,
-                   INPUT_DIMENSION, batch_size, gt,'/content/drive/My Drive/X_indianPines.mat',label_url)
+                   INPUT_DIMENSION, batch_size, gt,data_url,label_url)
     
     tic1 = time.clock()
     train.train(net, train_iter, valida_iter, loss, optimizer, device, epochs=num_epochs)
