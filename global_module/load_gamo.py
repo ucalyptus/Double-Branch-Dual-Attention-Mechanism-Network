@@ -49,7 +49,7 @@ class HyperSpectralDataset(Dataset):
         #self.targets = torch.Tensor(self.targets)
         self.targets = torch.Tensor(self.targets)
         self.targets = torch.transpose(self.targets,0,1)
-        self.targets = torch.squeeze(1)
+        self.targets = self.targets.squeeze(1)
         print(self.data.shape)
         print(self.targets.shape)
         
