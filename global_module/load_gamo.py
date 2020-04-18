@@ -70,3 +70,6 @@ train_loader = DataLoader(data_train, batch_size=16, shuffle=True)
 print(data_train.__getitem__(0)[0].shape)
 print(data_train.__len__())
 
+for batch_idx, (data, labels) in enumerate(train_loader):
+    print(data.shape)
+    print(labels.shape)
