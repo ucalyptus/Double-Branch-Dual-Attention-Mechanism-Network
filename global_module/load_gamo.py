@@ -43,6 +43,7 @@ class HyperSpectralDataset(Dataset):
         
         self.data = torch.Tensor(self.data)
         self.data = self.data.squeeze(4)
+        self.data = self.data.unsqueeze(1)
         #self.targets  = np.transpose(self.targets,0,1)
         #self.targets = np.squeeze(self.targets,axis=1)
         #self.targets = np.eye(nb_classes)[self.targets]
