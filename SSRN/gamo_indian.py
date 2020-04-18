@@ -113,7 +113,7 @@ print("--------" + net.name + " Training Finished-----------")
 record.record_output(OA, AA, KAPPA, ELEMENT_ACC, TRAINING_TIME, TESTING_TIME,
                      'records/' + 'GAMO' + '_' + Dataset + '_' +'25'+ '_'  + str(VALIDATION_SPLIT)  + '.txt')
 
-
+gt_hsi = sio.loadmat('../datasets/Indian_pines_gt.mat')['indian_pines_gt']
 generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices)
 print("location=\"",end="")
 print("./records/" + 'GAMO' + '_' + Dataset + '_' +'25'+ '_'   + str(VALIDATION_SPLIT)  + '.txt',end="")
