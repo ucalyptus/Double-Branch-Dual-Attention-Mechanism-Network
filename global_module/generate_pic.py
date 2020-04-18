@@ -149,6 +149,10 @@ def generate_iter(TRAIN_SIZE, train_indices, TEST_SIZE, test_indices, TOTAL_SIZE
     y_train = Y[train_indices] -1
     y_test = Y[test_indices] -1
     
+    print(total_indices,train_indices,test_indices)
+    print(TOTAL_SIZE,TRAIN_SIZE,TEST_SIZE)
+    print(VAL_SIZE)
+    
     #all_data = extract_samll_cubic.select_small_cubic(TOTAL_SIZE, total_indices, whole_data,
      #                                                 PATCH_LENGTH, padded_data, INPUT_DIMENSION)
 
@@ -168,7 +172,7 @@ def generate_iter(TRAIN_SIZE, train_indices, TEST_SIZE, test_indices, TOTAL_SIZE
 
     x_test = x_test_all[:-VAL_SIZE]
     y_test = y_test[:-VAL_SIZE]
-    print(x_test.shape,y_test.shape)
+    
     # x_train.shape is TRAIN_SIZE,5,5,25,1
     
     
