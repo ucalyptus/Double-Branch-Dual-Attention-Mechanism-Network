@@ -23,11 +23,15 @@ if split > 1.00 or split <= 0.05:
     split=0.95
 
 nbands = int(input("Select Number of bands "))
+allband=False
 
 with open(filename, 'r') as f:
     BANDLIST = ast.literal_eval(f.read())
-if nbands > len(BANDLIST) or nbands < 10:
-    BANDLIST = None
+
+if nbands>len(BANDLIST) or nbands<5:
+    exit()
+if BANDLIST is not "All":
+    allband=True
     
     
 def pavia_transform(ARRAY,BANDLIST):
@@ -67,7 +71,8 @@ def load_dataset(Dataset):
         mat_gt = sio.loadmat('../datasets/Indian_pines_gt.mat')
         data_hsi = mat_data['indian_pines_corrected']
         gt_hsi = mat_gt['indian_pines_gt']
-        data_hsi = indian_transform(data_hsi,BANDLIST)
+        if not allband:
+            data_hsi = indian_transform(data_hsi,BANDLIST)
         TOTAL_SIZE = 10249
         VALIDATION_SPLIT = split
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
