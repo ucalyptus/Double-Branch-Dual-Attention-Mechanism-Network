@@ -14,6 +14,7 @@ mydir = "/content/Double-Branch-Dual-Attention-Mechanism-Network/SSRN/"
 for file in os.listdir(mydir):
     if file.endswith(".txt"):
         print(file)
+print("All Bands")
 
 allband=False
 filename = input("Enter filename ")
@@ -22,7 +23,7 @@ if split > 1.00 or split <= 0.05:
     print("Split was wrong, defaulting to 0.95")
     split=0.95
 
-if filename=="All":
+if filename=="All Bands":
     allband=True
 
 else:
