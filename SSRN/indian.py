@@ -126,6 +126,6 @@ record.record_output(OA, AA, KAPPA, ELEMENT_ACC, TRAINING_TIME, TESTING_TIME,
 
 
 generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices)
-print("location=\"",end="")
-print("./records/"+ method + '_' + Dataset + '_' +str(BAND)+ '_'  + str(VALIDATION_SPLIT)  + '.txt',end="")
-print("\"")
+#print("location=\"",end="")
+#print("./records/"+ method + '_' + Dataset + '_' +str(BAND)+ '_'  + str(VALIDATION_SPLIT)  + '.txt',end="")
+#print("\"")
