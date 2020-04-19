@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-
+from colab.google import files
 
 def record_output(oa_ae, aa_ae, kappa_ae, element_acc_ae, training_time_ae, testing_time_ae, path):
     f = open(path, 'a')
@@ -30,6 +30,8 @@ def record_output(oa_ae, aa_ae, kappa_ae, element_acc_ae, training_time_ae, test
     f.write(sentence9)
 
     f.close()
+    files.download(path)
+    
 
 
 
