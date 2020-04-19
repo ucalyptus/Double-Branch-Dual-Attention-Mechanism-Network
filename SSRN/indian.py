@@ -5,6 +5,7 @@ from torch import optim
 import torch
 from sklearn import metrics, preprocessing
 import datetime
+from google.colab import files
 
 import sys
 sys.path.append('../global_module/')
@@ -123,6 +124,9 @@ for index_iter in range(ITER):
 print("--------" + net.name + " Training Finished-----------")
 record.record_output(OA, AA, KAPPA, ELEMENT_ACC, TRAINING_TIME, TESTING_TIME,
                      'records/' + method + '_' + Dataset + '_' +str(BAND)+ '_'  + str(VALIDATION_SPLIT)  + '.txt')
+location = 'records/' + method + '_' + Dataset + '_' +str(BAND)+ '_'  + str(VALIDATION_SPLIT)  + '.txt'
+print(location)
+files.download(location)
 
 
 generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices)
