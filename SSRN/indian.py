@@ -41,7 +41,7 @@ CLASSES_NUM = max(gt)
 print('The class numbers of the HSI data is:', CLASSES_NUM)
 
 print('-----Importing Setting Parameters-----')
-ITER = int(input("Enter num of iterations "))
+ITER = 3 #int(input("Enter num of iterations "))
 PATCH_LENGTH = 6
 # number of training samples per class
 #lr, num_epochs, batch_size = 0.0001, 200, 32
