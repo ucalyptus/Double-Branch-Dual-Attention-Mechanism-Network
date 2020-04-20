@@ -1767,7 +1767,7 @@ class SSRN_network(nn.Module):
         kernel_3d = math.ceil((band - 6) / 2)
 
         self.conv2 = nn.Conv3d(in_channels=24, out_channels=128, padding=(0, 0, 0),
-                               kernel_size=(1, 1, 10), stride=(1, 1, 1)) #10 was kernel_3d
+                               kernel_size=(1, 1, 7), stride=(1, 1, 1)) #10 was kernel_3d
         self.batch_norm2 = nn.Sequential(
             nn.BatchNorm3d(128, eps=0.001, momentum=0.1, affine=True),  # 动量默认值为0.1
             nn.ReLU(inplace=True)
