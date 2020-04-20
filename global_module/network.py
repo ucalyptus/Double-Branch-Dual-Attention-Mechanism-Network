@@ -1802,9 +1802,13 @@ class SSRN_network(nn.Module):
         print(x2.shape)
 
         x3 = self.res_net3(x2)
+        print(x3.shape)
         x3 = self.res_net4(x3)
+        print(x3.shape)
         x4 = self.avg_pooling(x3)
+        print(x4.shape)
         x4 = x4.view(x4.size(0), -1)
+        print(x4.shape)
         # print(x10.shape)
         return self.full_connection(x4)
 
