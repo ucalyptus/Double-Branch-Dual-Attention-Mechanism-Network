@@ -1753,14 +1753,14 @@ class SSRN_network(nn.Module):
         super(SSRN_network, self).__init__()
         self.name = 'SSRN'
         self.conv1 = nn.Conv3d(in_channels=1, out_channels=24,
-                                kernel_size=(1, 1, 7), stride=(1, 1, 2))
+                                kernel_size=(1, 1, 13), stride=(1, 1, 2))    #13 was 7 
         self.batch_norm1 = nn.Sequential(
-            nn.BatchNorm3d(24, eps=0.001, momentum=0.1, affine=True),  # 动量默认值为0.1
+            nn.BatchNorm3d(24, eps=0.001, momentum=0.1, affine=True), 
             nn.ReLU(inplace=True)
         )
 
-        self.res_net1 = Residual(24, 24, (1, 1, 7), (0, 0, 3))
-        self.res_net2 = Residual(24, 24, (1, 1, 7), (0, 0, 3))
+        self.res_net1 = Residual(24, 24, (1, 1, 13), (0, 0, 3))
+        self.res_net2 = Residual(24, 24, (1, 1, 13), (0, 0, 3))
         self.res_net3 = Residual(24, 24, (3, 3, 1), (1, 1, 0))
         self.res_net4 = Residual(24, 24, (3, 3, 1), (1, 1, 0))
 
