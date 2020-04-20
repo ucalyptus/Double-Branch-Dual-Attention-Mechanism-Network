@@ -1759,8 +1759,8 @@ class SSRN_network(nn.Module):
             nn.ReLU(inplace=True)
         )
 
-        self.res_net1 = Residual(24, 24, (1, 1, 13), (0, 0, 3))
-        self.res_net2 = Residual(24, 24, (1, 1, 13), (0, 0, 3))
+        self.res_net1 = Residual(24, 24, (1, 1, 7), (0, 0, 3))
+        self.res_net2 = Residual(24, 24, (1, 1, 7), (0, 0, 3))
         self.res_net3 = Residual(24, 24, (3, 3, 1), (1, 1, 0))
         self.res_net4 = Residual(24, 24, (3, 3, 1), (1, 1, 0))
 
