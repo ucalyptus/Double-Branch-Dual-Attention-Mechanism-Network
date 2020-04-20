@@ -1764,7 +1764,7 @@ class SSRN_network(nn.Module):
         self.res_net3 = Residual(24, 24, (3, 3, 1), (1, 1, 0))
         self.res_net4 = Residual(24, 24, (3, 3, 1), (1, 1, 0))
 
-        kernel_3d = math.ceil((band - 11) / 2)
+        kernel_3d = math.ceil((band - 6) / 2)
 
         self.conv2 = nn.Conv3d(in_channels=24, out_channels=128, padding=(0, 0, 0),
                                kernel_size=(1, 1, kernel_3d), stride=(1, 1, 1))
@@ -1792,9 +1792,12 @@ class SSRN_network(nn.Module):
 
         x2 = self.res_net1(x1)
         x2 = self.res_net2(x2)
+        print(x2.shape)
         x2 = self.batch_norm2(self.conv2(x2))
+        print(x2.shape)
         x2 = x2.permute(0, 4, 2, 3, 1)
         x2 = self.batch_norm3(self.conv3(x2))
+        print(x2.shape)
 
         x3 = self.res_net3(x2)
         x3 = self.res_net4(x3)
