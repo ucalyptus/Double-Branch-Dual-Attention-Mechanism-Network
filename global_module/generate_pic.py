@@ -10,15 +10,9 @@ import torch.utils.data as Data
 
 import ast
 import os
-mydir = "/content/Double-Branch-Dual-Attention-Mechanism-Network/SSRN/"
-for file in os.listdir(mydir):
-    if file.endswith(".txt"):
-        print(file)
-print("All Bands")
-
 allband=False
-filename = input("Enter filename ")
-split = float(input("Enter VALIDATION_SPLIT ")) 
+filename = "pca_indian.txt"
+split = 0.80
 if split > 1.00 or split <= 0.05:
     print("Split was wrong, defaulting to 0.95")
     split=0.95
@@ -27,7 +21,7 @@ if filename=="All Bands":
     allband=True
 
 else:
-    nbands = int(input("Select Number of bands "))
+    nbands = 25
 
     with open(filename, 'r') as f:
         BANDLIST = ast.literal_eval(f.read())
