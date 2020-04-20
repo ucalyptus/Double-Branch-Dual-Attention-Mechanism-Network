@@ -1782,7 +1782,7 @@ class SSRN_network(nn.Module):
         self.avg_pooling = nn.AvgPool3d(kernel_size=(5, 5, 1))
         self.full_connection = nn.Sequential(
             # nn.Dropout(p=0.5),
-            nn.Linear(96, classes)  # ,
+            nn.Linear(96, classes)  # 96 was 24
             # nn.Softmax()
         )
 
@@ -1792,23 +1792,23 @@ class SSRN_network(nn.Module):
 
         x2 = self.res_net1(x1)
         x2 = self.res_net2(x2)
-        print(x2.shape)
+        
         x2 = self.conv2(x2)
-        print(x2.shape)
+        
         x2 = self.batch_norm2(x2)
-        print(x2.shape)
+        
         x2 = x2.permute(0, 4, 2, 3, 1)
         x2 = self.batch_norm3(self.conv3(x2))
-        print(x2.shape)
+        
 
         x3 = self.res_net3(x2)
-        print(x3.shape)
+        
         x3 = self.res_net4(x3)
-        print(x3.shape)
+        
         x4 = self.avg_pooling(x3)
-        print(x4.shape)
+        
         x4 = x4.view(x4.size(0), -1)
-        print(x4.shape)
+        
         # print(x10.shape)
         return self.full_connection(x4)
 
