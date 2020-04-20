@@ -71,7 +71,7 @@ padded_data = np.lib.pad(whole_data, ((PATCH_LENGTH, PATCH_LENGTH), (PATCH_LENGT
 
                          'constant', constant_values=0)
 net = network.SSRN_network(BAND, CLASSES_NUM).to(device)
-summary(net,input_size=(1,7,7,25))
+summary(net,input_size=(1,13,13,25))
 for index_iter in range(ITER):
     print(f"ITER : {index_iter+1}")
     
