@@ -5,6 +5,8 @@ from torch import optim
 import torch
 from sklearn import metrics, preprocessing
 import datetime
+from torchsummary import summary
+
 
 import sys
 sys.path.append('../global_module/')
@@ -66,11 +68,13 @@ data = preprocessing.scale(data)
 data_ = data.reshape(data_hsi.shape[0], data_hsi.shape[1], data_hsi.shape[2])
 whole_data = data_
 padded_data = np.lib.pad(whole_data, ((PATCH_LENGTH, PATCH_LENGTH), (PATCH_LENGTH, PATCH_LENGTH), (0, 0)),
-                         'constant', constant_values=0)
 
+                         'constant', constant_values=0)
+net = network.SSRN_network(BAND, CLASSES_NUM).to(device)
+summary(net,input_size=(1,2*PATCH_LENGTH+1,2*PATCH_LENGTH+1,BAND))
 for index_iter in range(ITER):
     print(f"ITER : {index_iter+1}")
-    net = network.SSRN_network(BAND, CLASSES_NUM)
+    
     optimizer = optim.Adam(net.parameters(), lr=lr)  # , weight_decay=0.0001)
     time_1 = int(time.time())
     np.random.seed(seeds[index_iter])
@@ -123,6 +127,8 @@ for index_iter in range(ITER):
 print("--------" + net.name + " Training Finished-----------")
 record.record_output(OA, AA, KAPPA, ELEMENT_ACC, TRAINING_TIME, TESTING_TIME,
                      'records/' + method + '_' + Dataset + '_' +str(BAND)+ '_'  + str(VALIDATION_SPLIT)  + '.txt')
+location = 'records/' + method + '_' + Dataset + '_' +str(BAND)+ '_'  + str(VALIDATION_SPLIT)  + '.txt'
+
 
 
 generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices)
