@@ -499,9 +499,6 @@ class GaborNN(nn.Module):
         x = self.fc2(x)
         print(x.shape)
         return x
-
-net = GaborNN().to(device)
-
 class DBMA_network(nn.Module):
     def __init__(self, band, classes):
         super(DBMA_network, self).__init__()
