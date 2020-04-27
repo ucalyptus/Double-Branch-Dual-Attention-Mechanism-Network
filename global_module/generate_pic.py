@@ -13,7 +13,8 @@ import os
 mydir = "/content/Double-Branch-Dual-Attention-Mechanism-Network/SSRN/"
 for file in os.listdir(mydir):
     if file.endswith(".txt"):
-        print(file)
+        pass
+        #print(file)
 print("All Bands")
 print("Def")
 
