@@ -416,7 +416,7 @@ class GaborNN(nn.Module):
         self.name = 'GaborNN'
         self.g0 = GaborConv2d(in_channels=band, out_channels=96, kernel_size=(3, 3), device=device)
         self.c1 = nn.Conv2d(96, 128, (1,1))
-        self.fc1 = nn.Linear(128, 128)
+        self.fc1 = nn.Linear(128*5*5, 128)
         self.fc2 = nn.Linear(128, classes)
 
     def forward(self, x):
@@ -429,7 +429,7 @@ class GaborNN(nn.Module):
         print(x.shape)
         x = nn.MaxPool2d((1,1))(x)
         print(x.shape)
-        x = x.view(-1, 128)
+        x = x.view(-1, 128*5*5)
         print(x.shape)
         x = F.leaky_relu(self.fc1(x))
         print(x.shape)
