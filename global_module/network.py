@@ -472,6 +472,35 @@ class CDCNN_gabor(nn.Module):
         x1 = x1.view(x1.shape[0], -1)
         # print(x1.shape)
         return self.full_connection(x1)
+    
+    
+class GaborNN(nn.Module):
+    def __init__(self,band,classes):
+        super(GaborNN, self).__init__()
+        self.name = 'GaborNN'
+        self.g0 = GaborConv2d(in_channels=band, out_channels=96, kernel_size=(3, 3), device=device)
+        self.c1 = nn.Conv2d(96, 128, (3,3))
+        self.fc1 = nn.Linear(384*3*3, 64)
+        self.fc2 = nn.Linear(64, classes)
+
+    def forward(self, x):
+        x = F.leaky_relu(self.g0(x))
+        print(x.shape)
+        x = nn.MaxPool2d()(x)
+        print(x.shape)
+        x = F.leaky_relu(self.c1(x))
+        print(x.shape)
+        x = nn.MaxPool2d()(x)
+        print(x.shape)
+        x = x.view(-1, 384*3*3)
+        print(x.shape)
+        x = F.leaky_relu(self.fc1(x))
+        print(x.shape)
+        x = self.fc2(x)
+        print(x.shape)
+        return x
+
+net = GaborNN().to(device)
 
 class DBMA_network(nn.Module):
     def __init__(self, band, classes):
