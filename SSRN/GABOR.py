@@ -10,7 +10,6 @@ from torchsummary import summary
 
 import sys
 sys.path.append('../global_module/')
-sys.path.append('../CDCNN/')
 import network
 import train
 from generate_pic import aa_and_each_accuracy, sampling,load_dataset, generate_png, generate_iter
