@@ -422,7 +422,7 @@ class CDCNN_gabor(nn.Module):
             GaborConv2d(in_channels=band, out_channels=128, kernel_size=(3, 3), device=device),
             nn.MaxPool2d(kernel_size=(3, 3))
         )
-        self.conv13 = GaborConv2d(in_channels=band, out_channels=128, kernel_size=(5, 5), device=device)
+        self.conv13 = GaborConv2d(in_channels=band, out_channels=128, kernel_size=(7, 7), device=device)
 
         self.batch_normal1 = nn.Sequential(
             nn.ReLU(inplace=True),
