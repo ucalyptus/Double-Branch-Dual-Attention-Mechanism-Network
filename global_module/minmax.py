@@ -12,6 +12,31 @@ sys.path.append('../global_module/')
 from activation import mish, gelu, gelu_new, swish
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
+class Residual(nn.Module): 
+    def __init__(self, in_channels, out_channels, kernel_size, padding, use_1x1conv=False, stride=1):
+        super(Residual, self).__init__()
+        self.conv1 = nn.Sequential(
+            nn.Conv3d(in_channels, out_channels,
+                      kernel_size=kernel_size, padding=padding, stride=stride),
+            nn.ReLU()
+        )
+        self.conv2 = nn.Conv3d(out_channels, out_channels,
+                               kernel_size=kernel_size, padding=padding,stride=stride)
+        if use_1x1conv:
+            self.conv3 = nn.Conv3d(in_channels, out_channels, kernel_size=1, stride=stride)
+        else:
+            self.conv3 = None
+        self.bn1 = nn.BatchNorm3d(out_channels)
+        self.bn2 = nn.BatchNorm3d(out_channels)
+
+    def forward(self, X):
+        Y = F.relu(self.bn1(self.conv1(X)))
+        Y = self.bn2(self.conv2(Y))
+        if self.conv3:
+            X = self.conv3(X)
+        return F.relu(Y + X)
+      
+      
 class MinMaxCNNLayer(nn.Module):
   def __init__(self,infeatures,outfeatures,kernelsize,stride,paddinglength):
     super(MinMaxCNNLayer,self).__init__()
