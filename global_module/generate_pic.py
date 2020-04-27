@@ -15,17 +15,19 @@ for file in os.listdir(mydir):
     if file.endswith(".txt"):
         print(file)
 print("All Bands")
+print("Def")
 
 allband=False
 filename = input("Enter filename ")
+if filename=="Def":
+    allband=True
+    split=0.95
 split = float(input("Enter VALIDATION_SPLIT ")) 
 if split > 1.00 or split <= 0.05:
     print("Split was wrong, defaulting to 0.95")
     split=0.95
-
 if filename=="All Bands":
     allband=True
-
 else:
     nbands = int(input("Select Number of bands "))
 
