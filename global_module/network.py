@@ -487,7 +487,7 @@ class GaborNN(nn.Module):
         x = x.squeeze(1).permute(0,3,1,2)
         x = F.leaky_relu(self.g0(x))
         print(x.shape)
-        x = nn.MaxPool2d((3,3))(x)
+        x = nn.MaxPool2d((2,2))(x)
         print(x.shape)
         x = F.leaky_relu(self.c1(x))
         print(x.shape)
