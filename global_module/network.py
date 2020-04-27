@@ -10,7 +10,7 @@ import torch.nn.functional as F
 import sys
 sys.path.append('../global_module/')
 from activation import mish, gelu, gelu_new, swish
-
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 class Residual_2D(nn.Module):  # 本类已保存在d2lzh_pytorch包中方便以后使用
     def __init__(self, in_channels, out_channels, kernel_size, padding, batch_normal = False, stride=1):
