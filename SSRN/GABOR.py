@@ -71,7 +71,7 @@ padded_data = np.lib.pad(whole_data, ((PATCH_LENGTH, PATCH_LENGTH), (PATCH_LENGT
 
                          'constant', constant_values=0)
 net = network.GaborNN(BAND, CLASSES_NUM).to(device)
-print(summary(net,(13,13,200)))
+print(summary(net,(img_rows,img_cols,BAND)))
 for index_iter in range(ITER):
     print(f"ITER : {index_iter+1}")
     
