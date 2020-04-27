@@ -478,7 +478,7 @@ class GaborNN(nn.Module):
     def __init__(self,band,classes):
         super(GaborNN, self).__init__()
         self.name = 'GaborNN'
-        self.g0 = GaborConv2d(in_channels=band, out_channels=96, kernel_size=(1, 1), device=device)
+        self.g0 = GaborConv2d(in_channels=band, out_channels=96, kernel_size=(3, 3), device=device)
         self.c1 = nn.Conv2d(96, 128, (3,3))
         self.fc1 = nn.Linear(512, 128)
         self.fc2 = nn.Linear(128, classes)
