@@ -478,7 +478,7 @@ class GaborNN(nn.Module):
     def __init__(self,band,classes):
         super(GaborNN, self).__init__()
         self.name = 'GaborNN'
-        self.g0 = GaborConv2d(in_channels=band, out_channels=96, kernel_size=(3, 3), device=device)
+        self.g0 = GaborConv2d(in_channels=band, out_channels=96, kernel_size=(1, 1), device=device)
         self.c1 = nn.Conv2d(96, 128, (3,3))
         self.fc1 = nn.Linear(384*3*3, 64)
         self.fc2 = nn.Linear(64, classes)
@@ -487,7 +487,7 @@ class GaborNN(nn.Module):
         x = x.squeeze(1).permute(0,3,1,2)
         x = F.leaky_relu(self.g0(x))
         print(x.shape)
-        x = nn.MaxPool2d((2,2))(x)
+        x = nn.MaxPool2d((5,5))(x)
         print(x.shape)
         x = F.leaky_relu(self.c1(x))
         print(x.shape)
