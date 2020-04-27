@@ -72,7 +72,7 @@ padded_data = np.lib.pad(whole_data, ((PATCH_LENGTH, PATCH_LENGTH), (PATCH_LENGT
 
                          'constant', constant_values=0)
 net = network.CDCNN_gabor(BAND, CLASSES_NUM).to(device)
-summary(net,input_size=(1,7,7,25))
+
 for index_iter in range(ITER):
     print(f"ITER : {index_iter+1}")
     
