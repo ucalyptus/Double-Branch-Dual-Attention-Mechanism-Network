@@ -412,7 +412,7 @@ class DBDA_Separable_network(nn.Module):
 class CDCNN_gabor(nn.Module):
     def __init__(self, band, classes):
         super(CDCNN_gabor, self).__init__()
-        self.name = 'CDCNN'
+        self.name = 'CDCNN_gabor'
 
         self.conv11 = nn.Sequential(
             GaborConv2d(in_channels=band, out_channels=128, kernel_size=(1, 1), device=device),
@@ -455,12 +455,13 @@ class CDCNN_gabor(nn.Module):
 
     def forward(self, X):
         X = X.squeeze(1).permute(0, 3, 1, 2)
+        print(X.shape)
         x11 = self.conv11(X)
         x12 = self.conv12(X)
         x13 = self.conv13(X)
-        # print(x11.shape)
-        # print(x12.shape)
-        # print(x13.shape)
+        print(x11.shape)
+        print(x12.shape)
+        print(x13.shape)
         x1 = torch.cat((x11, x12, x13), dim=1)
         x1 = self.conv2(x1)
         x1 = self.res_net1(x1)
