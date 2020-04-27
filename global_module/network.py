@@ -486,12 +486,12 @@ class GaborNN(nn.Module):
     def forward(self, x):
         x = x.squeeze(1).permute(0,3,1,2)
         x = F.leaky_relu(self.g0(x))
-        print(x.shape)
-        x = nn.MaxPool2d((7,7))(x)
-        print(x.shape)
+        print(x.shape) # 13,13
+        x = nn.MaxPool2d((2,2))(x)
+        print(x.shape) # ?
         x = F.leaky_relu(self.c1(x))
         print(x.shape)
-        x = nn.MaxPool2d((5,5))(x)
+        x = nn.MaxPool2d((2,2))(x)
         print(x.shape)
         x = x.view(-1, 384*3*3)
         print(x.shape)
