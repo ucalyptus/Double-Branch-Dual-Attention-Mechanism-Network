@@ -22,21 +22,22 @@ filename = input("Enter filename ")
 if filename=="Def":
     allband=True
     split=0.95
-split = float(input("Enter VALIDATION_SPLIT ")) 
-if split > 1.00 or split <= 0.05:
-    print("Split was wrong, defaulting to 0.95")
-    split=0.95
-if filename=="All Bands":
-    allband=True
 else:
-    nbands = int(input("Select Number of bands "))
+    split = float(input("Enter VALIDATION_SPLIT ")) 
+    if split > 1.00 or split <= 0.05:
+        print("Split was wrong, defaulting to 0.95")
+        split=0.95
+    if filename=="All Bands":
+        allband=True
+    else:
+        nbands = int(input("Select Number of bands "))
 
-    with open(filename, 'r') as f:
-        BANDLIST = ast.literal_eval(f.read())
+        with open(filename, 'r') as f:
+            BANDLIST = ast.literal_eval(f.read())
 
-        if nbands>len(BANDLIST) or nbands<5:
-            print("u entered more bands than provided in the bandlist.")
-            exit()
+            if nbands>len(BANDLIST) or nbands<5:
+                print("u entered more bands than provided in the bandlist.")
+                exit()
     
     
 def pavia_transform(ARRAY,BANDLIST):
