@@ -114,7 +114,7 @@ class SSRN_MINMAX(nn.Module):
     
 class SSRN_LSTM(nn.Module):
     def __init__(self,band,classes):
-        super(CnnLstm, self).__init__()
+        super(SSRN_LSTM, self).__init__()
         self.ssrn = SSRN_MINMAX(band,classes)
         self.rnn = nn.LSTM(
             input_size=6192,
