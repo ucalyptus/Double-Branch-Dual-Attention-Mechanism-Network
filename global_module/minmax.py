@@ -110,4 +110,29 @@ class SSRN_MINMAX(nn.Module):
         x4 = self.avg_pooling(x3)
         x4 = x4.view(x4.size(0), -1)
         
-        return self.full_connection(x4)
+        return self.full_connection(x4),x4
+    
+class SSRN_LSTM(nn.Module):
+    def __init__(self,band,classes):
+        super(CnnLstm, self).__init__()
+        self.ssrn = SSRN_MINMAX(band,classes)
+        self.rnn = nn.LSTM(
+            input_size=6192,
+            hidden_size=64,
+            num_layers=1,
+            batch_first=True)
+        self.linear = nn.Linear(64, classes)
+
+    def forward(self, x):
+        batch_size, time_steps ,height, width , channels= x.size()
+        
+        c_in = x
+        _, c_out = self.ssrn(c_in)
+        
+        r_in = c_out.view(batch_size, time_steps, -1)
+        
+        r_out, (_, _) = self.rnn(r_in)
+        
+        r_out2 = self.linear(r_out[:, -1, :])
+        
+        return f.log_softmax(r_out2, dim=1)
