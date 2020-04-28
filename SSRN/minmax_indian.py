@@ -89,11 +89,12 @@ for index_iter in range(ITER):
     print('Validation size: ', VAL_SIZE)
 
     print('-----Selecting Small Pieces from the Original Cube Data-----')
-
+    
     train_iter, valida_iter, test_iter, all_iter = generate_iter(TRAIN_SIZE, train_indices, TEST_SIZE, test_indices, TOTAL_SIZE, total_indices, VAL_SIZE,
                   whole_data, PATCH_LENGTH, padded_data, INPUT_DIMENSION, batch_size, gt)
 
     tic1 = time.clock()
+    net.train()
     train.train(net, train_iter, valida_iter, loss, optimizer, device, epochs=num_epochs)
     toc1 = time.clock()
 
