@@ -28,7 +28,7 @@ print('-----Importing Dataset-----')
 
 
 
-global Dataset  # UP,IN,KSC
+global Dataset 
 dataset = 'IN'
 Dataset = dataset.upper()
 data_hsi, gt_hsi, TOTAL_SIZE, TRAIN_SIZE,VALIDATION_SPLIT,method = load_dataset(Dataset)
@@ -71,11 +71,11 @@ padded_data = np.lib.pad(whole_data, ((PATCH_LENGTH, PATCH_LENGTH), (PATCH_LENGT
 
                          'constant', constant_values=0)
 net = minmax.SSRN_LSTM(BAND, CLASSES_NUM).to(device)
-summary(net,input_size=(1,img_rows,img_cols,BAND))
+#summary(net,input_size=(1,img_rows,img_cols,BAND))
 for index_iter in range(ITER):
     print(f"ITER : {index_iter+1}")
     
-    optimizer = optim.Adam(net.parameters(), lr=lr)  # , weight_decay=0.0001)
+    optimizer = optim.Adam(net.parameters(), lr=lr)  
     time_1 = int(time.time())
     np.random.seed(seeds[index_iter])
     train_indices, test_indices = sampling(VALIDATION_SPLIT, gt)
