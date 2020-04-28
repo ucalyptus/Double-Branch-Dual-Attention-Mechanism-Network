@@ -135,4 +135,4 @@ class SSRN_LSTM(nn.Module):
         
         r_out2 = self.linear(r_out[:, -1, :])
         
-        return f.log_softmax(r_out2, dim=1)
+        return F.log_softmax(r_out2, dim=1)
