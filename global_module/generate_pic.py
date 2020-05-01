@@ -296,32 +296,11 @@ def generate_iter(TRAIN_SIZE, train_indices, TEST_SIZE, test_indices, TOTAL_SIZE
 
 def generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices):
     pred_test = []
-    # with torch.no_grad():
-    #     for i in range(len(gt_hsi)):
-    #         if i == 0:
-    #             pred_test.extend([-1])
-    #         else:
-    #             X = all_iter[i].to(device)
-    #             net.eval()  # 评估模式, 这会关闭dropout
-    #             # print(net(X))
-    #             pred_test.extend(np.array(net(X).cpu().argmax(axis=1)))
-
-        # for X, y in all_iter:
-        #     #for data, label in X, y:
-        #     if y.item() != 0:
-        #         # print(X)
-        #         X = X.to(device)
-        #         net.eval()  # 评估模式, 这会关闭dropout
-        #         y_hat = net(X)
-        #         # print(net(X))
-        #         pred_test.extend(np.array(net(X).cpu().argmax(axis=1)))
-        #     else:
-        #         pred_test.extend([-1])
     for X, y in all_iter:
         X = X.to(device)
         net.eval()  # 评估模式, 这会关闭dropout
         # print(net(X))
-        pred_test.extend(np.array(net(X).cpu().argmax(axis=1)))
+        pred_test.extend(np.array(net(X)..detach().cpu().numpy().argmax(axis=1)))
 
     gt = gt_hsi.flatten()
     x_label = np.zeros(gt.shape)
@@ -347,7 +326,7 @@ def generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices):
     y_re = np.reshape(y_list, (gt_hsi.shape[0], gt_hsi.shape[1], 3))
     gt_re = np.reshape(y_gt, (gt_hsi.shape[0], gt_hsi.shape[1], 3))
 
-    path = '../' + 'SSRN'
+    path = '../' + net.name
     classification_map(y_re, gt_hsi, 300,
                        path + '/classification_maps/' + Dataset + '_' + net.name +  '.png')
     classification_map(gt_re, gt_hsi, 300,
