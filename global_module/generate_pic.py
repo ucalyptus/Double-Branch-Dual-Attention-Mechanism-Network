@@ -327,8 +327,9 @@ def generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices):
     gt_re = np.reshape(y_gt, (gt_hsi.shape[0], gt_hsi.shape[1], 3))
 
     path = '../' + net.name
+    filename = input("ki file name debo bolo")
     classification_map(y_re, gt_hsi, 300,
-                       path + '/classification_maps/' + Dataset + '_' + net.name +  '.png')
+                       path + '/classification_maps/' + filename + '_' + Dataset +  '.pdf')
     classification_map(gt_re, gt_hsi, 300,
                        path + '/classification_maps/' + Dataset + '_gt.png')
     print('------Get classification maps successful-------')
