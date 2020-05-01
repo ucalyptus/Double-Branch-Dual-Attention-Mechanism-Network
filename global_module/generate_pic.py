@@ -331,5 +331,5 @@ def generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices):
     classification_map(y_re, gt_hsi, 300,
                        path + '/classification_maps/'  + '_' + Dataset +  '.pdf')
     classification_map(gt_re, gt_hsi, 300,
-                       path + '/classification_maps/' + Dataset + '_gt.png')
+                       path + '/classification_maps/' + Dataset + '_gt.pdf')
     print('------Get classification maps successful-------')
