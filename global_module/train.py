@@ -50,12 +50,12 @@ def train(net, train_iter, valida_iter, loss, optimizer, device, epochs=30, earl
             optimizer.zero_grad()
             l.backward()
             optimizer.step()
-            lr_adjust.step()
+            
             train_l_sum += l.cpu().item()
             train_acc_sum += (y_hat.argmax(dim=1) == y).sum().cpu().item()
             n += y.shape[0]
             batch_count += 1
-        lr_adjust.step(epoch)
+        lr_adjust.step()
         valida_acc, valida_loss = evaluate_accuracy(valida_iter, net, loss, device)
         loss_list.append(valida_loss)
 
