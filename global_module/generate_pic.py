@@ -300,7 +300,7 @@ def generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices):
         X = X.to(device)
         net.eval()  # 评估模式, 这会关闭dropout
         # print(net(X))
-        pred_test.extend(np.array(net(X)..detach().cpu().numpy().argmax(axis=1)))
+        pred_test.extend(np.array(net(X).detach().cpu().numpy().argmax(axis=1)))
 
     gt = gt_hsi.flatten()
     x_label = np.zeros(gt.shape)
