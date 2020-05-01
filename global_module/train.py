@@ -49,7 +49,7 @@ def train(net, train_iter, valida_iter, loss, optimizer, device, epochs=30, earl
 
             optimizer.zero_grad()
             l.backward()
-            optimizer.step()
+            lr_adjust.step()
             train_l_sum += l.cpu().item()
             train_acc_sum += (y_hat.argmax(dim=1) == y).sum().cpu().item()
             n += y.shape[0]
