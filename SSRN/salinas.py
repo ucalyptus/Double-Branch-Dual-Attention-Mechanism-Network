@@ -71,7 +71,7 @@ padded_data = np.lib.pad(whole_data, ((PATCH_LENGTH, PATCH_LENGTH), (PATCH_LENGT
 
                          'constant', constant_values=0)
 net = network.SSRN_network(BAND, CLASSES_NUM).to(device)
-summary(net,input_size=(1,2*PATCH_LENGTH+1,2*PATCH_LENGTH+1,BAND))
+summary(net,input_size=(1,img_rows,img_cols,BAND))
 for index_iter in range(ITER):
     print(f"ITER : {index_iter+1}")
     
@@ -127,11 +127,6 @@ for index_iter in range(ITER):
 print("--------" + net.name + " Training Finished-----------")
 record.record_output(OA, AA, KAPPA, ELEMENT_ACC, TRAINING_TIME, TESTING_TIME,
                      'records/' + method + '_' + Dataset + '_' +str(BAND)+ '_'  + str(VALIDATION_SPLIT)  + '.txt')
-location = 'records/' + method + '_' + Dataset + '_' +str(BAND)+ '_'  + str(VALIDATION_SPLIT)  + '.txt'
-
-
 
 generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices)
-print("location=\"",end="")
-print("./records/"+ method + '_' + Dataset + '_' +str(BAND)+ '_'  + str(VALIDATION_SPLIT)  + '.txt',end="")
-print("\"")
+
