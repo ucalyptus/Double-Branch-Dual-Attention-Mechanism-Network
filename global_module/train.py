@@ -4,7 +4,7 @@ import numpy as np
 import sys
 sys.path.append('../global_module/')
 import d2lzh_pytorch as d2l
-from cyclic_scheduler import CyclicLR
+
 
 def evaluate_accuracy(data_iter, net, loss, device):
     acc_sum, n = 0.0, 0
@@ -38,8 +38,10 @@ def train(net, train_iter, valida_iter, loss, optimizer, device, epochs=30, earl
     for epoch in range(epochs):
         train_acc_sum, n = 0.0, 0
         time_epoch = time.time()
-        #lr_adjust = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, 15, eta_min=0.0, last_epoch=-1)
-        lr_adjust = CyclicLR(optimizer, base_lr=0.0001, max_lr=0.01, step_size=10, mode=decay_strategy)
+        lr_adjust = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, 15, eta_min=0.0, last_epoch=-1)
+        #lr_adjust = torch.optim.lr_scheduler.CyclicLR(optimizer, base_lr=0.01, max_lr=0.1, step_size_up=2000, step_size_down=None, mode='triangular', gamma=1.0, scale_fn=None, scale_mode='cycle', cycle_momentum=True, base_momentum=0.8, max_momentum=0.9, last_epoch=-1)
+        
+        
         for X, y in train_iter:
             batch_count, train_l_sum = 0, 0
             X = X.to(device)
