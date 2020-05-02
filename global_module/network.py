@@ -239,6 +239,7 @@ class CDCNN_network(nn.Module):
 class HybridSN(nn.Module):
     def __init__(self,band,classes):
         super(HybridSN, self).__init__()
+        self.name = 'HybridSN'
         self.conv3d_1 = nn.Sequential(nn.Conv3d(1, 8, ( 3, 3,3)), 
                         nn.ReLU())
         
