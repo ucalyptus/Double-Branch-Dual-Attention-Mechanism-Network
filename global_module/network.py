@@ -235,7 +235,50 @@ class CDCNN_network(nn.Module):
         x1 = x1.view(x1.shape[0], -1)
         # print(x1.shape)
         return self.full_connection(x1)
+    
+class HybridSN(nn.Module):
+    def __init__(self,band,classes):
+        super(HybridSN, self).__init__()
+        self.conv3d_1 = nn.Sequential(nn.Conv3d(1, 8, ( 3, 3,3)), 
+                        nn.ReLU())
+        
+        self.conv3d_2 = nn.Sequential(nn.Conv3d(8, 16, (3, 3,3)),
+                        nn.ReLU())
+                        
+        self.conv3d_3 = nn.Sequential(nn.Conv3d( 16,32, (3, 3,3)),
+                        nn.ReLU())
+        self.conv2d_1 = nn.Sequential(nn.Conv2d( 6208,64, (3, 3)),
+                        nn.ReLU())
+        
+        self.dense1 =  nn.Linear(64,256)
+        self.dense2 =  nn.Linear(256,128)
+        self.full = nn.Linear(128,classes)
+        self.drop = nn.Dropout(p=0.4)
+        self.soft = nn.Softmax(dim=-1)
 
+        
+
+    def forward(self, x):
+        x = self.conv3d_1(x)
+        
+        x = self.conv3d_2(x)
+        
+        x = self.conv3d_3(x)
+        
+        batches,Q,H,W,C = x.size()
+        x = x.view(batches,Q*C,H,W)
+        
+        x = self.conv2d_1(x)
+        
+        x = x.reshape(-1,64)
+        
+        x = self.dense1(x)
+        x = self.drop(x)
+        x = self.dense2(x)
+        x = self.drop(x)
+        x = self.full(x)
+
+        return self.soft(x)
 
 class DBDA_Separable_network(nn.Module):
     def __init__(self, band, classes):
