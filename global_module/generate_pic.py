@@ -6,71 +6,19 @@ import torch
 import math
 from Utils import extract_samll_cubic
 import torch.utils.data as Data
-
-
-import ast
+from sklearn.decomposition import PCA
 import os
-mydir = "/content/Double-Branch-Dual-Attention-Mechanism-Network/SSRN/"
-for file in os.listdir(mydir):
-    if file.endswith(".txt"):
-        pass
-        #print(file)
-print("All Bands")
-print("Def")
-
-allband=False
-filename = input("Enter filename ")
-if filename=="Def":
-    allband=True
-    split=0.95
-else:
-    split = float(input("Enter VALIDATION_SPLIT ")) 
-    if split > 1.00 or split <= 0.05:
-        print("Split was wrong, defaulting to 0.95")
-        split=0.95
-    if filename=="All Bands":
-        allband=True
-    else:
-        nbands = int(input("Select Number of bands "))
-
-        with open(filename, 'r') as f:
-            BANDLIST = ast.literal_eval(f.read())
-
-            if nbands>len(BANDLIST) or nbands<5:
-                print("u entered more bands than provided in the bandlist.")
-                exit()
-    
-    
-def pavia_transform(ARRAY,BANDLIST):
-    if BANDLIST is not None:
-        BANDLIST=BANDLIST[:15]
-        BANDLIST = BANDLIST[:nbands]
-        assert ARRAY.shape[2] ==103
-        tensor_list = []
-        for i in range(0,len(BANDLIST)):
-            tensor_list.append(ARRAY[:,:,BANDLIST[i]])
-        return np.stack(tensor_list,axis=2)
-
-def salinas_transform(ARRAY,BANDLIST):
-    if BANDLIST is not None:
-        BANDLIST=BANDLIST[:20]    
-        BANDLIST = BANDLIST[:nbands]
-        assert ARRAY.shape[2] ==204
-        tensor_list = []
-        for i in range(0,len(BANDLIST)):
-            tensor_list.append(ARRAY[:,:,BANDLIST[i]])
-        return np.stack(tensor_list,axis=2)
+split = float(input("Enter Validation Split"))
+K = int(input("Enter PCA bands"))
 
 
-def indian_transform(ARRAY,BANDLIST):
-    if BANDLIST is not None:
-        BANDLIST=BANDLIST[:25]    
-        BANDLIST = BANDLIST[:nbands]
-        assert ARRAY.shape[2] ==200
-        tensor_list = []
-        for i in range(0,len(BANDLIST)):
-            tensor_list.append(ARRAY[:,:,BANDLIST[i]])
-        return np.stack(tensor_list,axis=2)
+def applyPCA(X, numComponents=75):
+    newX = np.reshape(X, (-1, X.shape[2]))
+    pca = PCA(n_components=numComponents, whiten=True)
+    newX = pca.fit_transform(newX)
+    newX = np.reshape(newX, (X.shape[0],X.shape[1], numComponents))
+    return newX, pca
+
 
 def load_dataset(Dataset):
     if Dataset == 'IN':
@@ -78,8 +26,7 @@ def load_dataset(Dataset):
         mat_gt = sio.loadmat('../datasets/Indian_pines_gt.mat')
         data_hsi = mat_data['indian_pines_corrected']
         gt_hsi = mat_gt['indian_pines_gt']
-        if not allband:
-            data_hsi = indian_transform(data_hsi,BANDLIST)
+        data_hsi,_= applyPCA(data_hsi,numComponents=K)
         TOTAL_SIZE = 10249
         VALIDATION_SPLIT = split
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
@@ -89,17 +36,17 @@ def load_dataset(Dataset):
         gt_uPavia = sio.loadmat('../datasets/PaviaU_gt.mat')
         data_hsi = uPavia['paviaU']
         gt_hsi = gt_uPavia['paviaU_gt']
-        data_hsi = pavia_transform(data_hsi,BANDLIST)
+        data_hsi,_= applyPCA(data_hsi,numComponents=K)
         TOTAL_SIZE = 42776
         VALIDATION_SPLIT = split
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
 
     if Dataset == 'SV':
-        SV = sio.loadmat('../datasets/Salinas_corrected.mat')
+        SV = sio.loadmat(`'../datasets/Salinas_corrected.mat')
         gt_SV = sio.loadmat('../datasets/Salinas_gt.mat')
         data_hsi = SV['salinas_corrected']
         gt_hsi = gt_SV['salinas_gt']
-        data_hsi = salinas_transform(data_hsi,BANDLIST)
+        data_hsi,_= applyPCA(data_hsi,numComponents=K)
         TOTAL_SIZE = 54129
         VALIDATION_SPLIT = split
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
@@ -326,7 +273,7 @@ def generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices):
     y_re = np.reshape(y_list, (gt_hsi.shape[0], gt_hsi.shape[1], 3))
     gt_re = np.reshape(y_gt, (gt_hsi.shape[0], gt_hsi.shape[1], 3))
 
-    path = '../' + net.name
+    path = '../' + 'SSRN'
     
     classification_map(y_re, gt_hsi, 300,
                        path + '/classification_maps/'  + '_' + Dataset +  '.pdf')
