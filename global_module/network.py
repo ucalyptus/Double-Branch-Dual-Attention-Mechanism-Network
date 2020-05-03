@@ -108,6 +108,7 @@ class Residual(nn.Module):  # 本类已保存在d2lzh_pytorch包中方便以后�
 class HybridSN(nn.Module):
     def __init__(self,band,classes):
         super(HybridSN, self).__init__()
+        self.name = 'HybridSN'
         self.conv3d_1 = nn.Sequential(nn.Conv3d(1, 8, (3,3,3)), 
                         nn.ReLU())
         
