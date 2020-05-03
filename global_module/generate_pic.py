@@ -42,7 +42,7 @@ def load_dataset(Dataset):
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
 
     if Dataset == 'SV':
-        SV = sio.loadmat(`'../datasets/Salinas_corrected.mat')
+        SV = sio.loadmat('../datasets/Salinas_corrected.mat')
         gt_SV = sio.loadmat('../datasets/Salinas_gt.mat')
         data_hsi = SV['salinas_corrected']
         gt_hsi = gt_SV['salinas_gt']
