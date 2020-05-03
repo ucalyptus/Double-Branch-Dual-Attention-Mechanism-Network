@@ -246,7 +246,7 @@ class HybridSN(nn.Module):
                         nn.ReLU())
         self.conv3d_3 = nn.Sequential(nn.Conv3d( 16,32, (3, 3,3)),
                         nn.ReLU())
-        self.conv2d_1 = nn.Sequential(nn.Conv2d( 6208,64, (3, 3)),
+        self.conv2d_1 = nn.Sequential(nn.Conv2d( 608,64, (3, 3)),
                         nn.ReLU())
         self.dense1 =  nn.Linear(64,256)
         self.dense2 =  nn.Linear(256,128)
