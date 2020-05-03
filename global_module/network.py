@@ -108,21 +108,25 @@ class Residual(nn.Module):  # 本类已保存在d2lzh_pytorch包中方便以后�
 class HybridSN(nn.Module):
     def __init__(self,band,classes):
         super(HybridSN, self).__init__()
-        self.name = 'HybridSN'
-        self.conv3d_1 = nn.Sequential(nn.Conv3d(1, 8, ( 3, 3,3)), 
+        self.conv3d_1 = nn.Sequential(nn.Conv3d(1, 8, (3,3,3)), 
                         nn.ReLU())
-        self.conv3d_2 = nn.Sequential(nn.Conv3d(8, 16, (3, 3,3)),
+        
+        self.conv3d_2 = nn.Sequential(nn.Conv3d(8, 16, (3,3,7)),
                         nn.ReLU())
-        self.conv3d_3 = nn.Sequential(nn.Conv3d( 16,32, (3, 3,3)),
+                        
+        self.conv3d_3 = nn.Sequential(nn.Conv3d( 16,32, (3,3,5)),
                         nn.ReLU())
-        self.conv2d_1 = nn.Sequential(nn.Conv2d( 608,64, (3, 3)),
+        self.conv2d_1 = nn.Sequential(nn.Conv2d( 576,64, (3, 3)),
                         nn.ReLU())
-        self.dense1 =  nn.Linear(64,256)
+        
+        self.dense1 =  nn.Linear(18496,256)
         self.dense2 =  nn.Linear(256,128)
         self.full = nn.Linear(128,classes)
         self.drop = nn.Dropout(p=0.4)
         self.soft = nn.Softmax(dim=-1)
+
         
+
     def forward(self, x):
         x = self.conv3d_1(x)
         x = self.conv3d_2(x)
@@ -130,13 +134,14 @@ class HybridSN(nn.Module):
         batches,Q,H,W,C = x.size()
         x = x.view(batches,Q*C,H,W)
         x = self.conv2d_1(x)
-        x = x.reshape(-1,64)
+        x = x.reshape(batches,-1)
         x = self.dense1(x)
         x = self.drop(x)
         x = self.dense2(x)
         x = self.drop(x)
         x = self.full(x)
         return self.soft(x)
+    
 class SSRN_network(nn.Module):
     def __init__(self, band, classes):
         super(SSRN_network, self).__init__()
