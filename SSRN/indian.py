@@ -31,7 +31,7 @@ print('-----Importing Dataset-----')
 global Dataset  # UP,IN,KSC
 dataset = 'IN'
 Dataset = dataset.upper()
-data_hsi, gt_hsi, TOTAL_SIZE, TRAIN_SIZE,VALIDATION_SPLIT,method = load_dataset(Dataset)
+data_hsi, gt_hsi, TOTAL_SIZE, TRAIN_SIZE,VALIDATION_SPLIT= load_dataset(Dataset)
 
 print(data_hsi.shape)
 image_x, image_y, BAND = data_hsi.shape
@@ -125,4 +125,4 @@ for index_iter in range(ITER):
 
 print("--------" + net.name + " Training Finished-----------")
 record.record_output(OA, AA, KAPPA, ELEMENT_ACC, TRAINING_TIME, TESTING_TIME,
-                     'records/' + method + '_' + Dataset + '_' +str(BAND)+ '_'  + str(VALIDATION_SPLIT)  + '.txt')
+                     'records/' + 'PCA' + '_' + Dataset + '_' +str(BAND)+ '_'  + str(VALIDATION_SPLIT)  + '.txt')
