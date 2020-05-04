@@ -53,6 +53,7 @@ class MinMaxCNNLayer(nn.Module):
     conv1 = self.cnn(x)
     conv2 = (-1) * conv1
     conv3 = torch.cat((conv1,conv2),dim=1)
+    print(conv3.shape)
     return conv3
     
 class SSRN_MINMAX(nn.Module):
