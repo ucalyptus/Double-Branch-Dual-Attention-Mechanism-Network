@@ -1,6 +1,5 @@
 import torch
 from torch import nn
-from attontion import PAM_Module, CAM_Module
 import math
 from sklearn.svm import SVC
 from sklearn.model_selection import GridSearchCV
@@ -9,22 +8,23 @@ import torch.nn.functional as F
 
 import sys
 sys.path.append('../global_module/')
-from activation import mish, gelu, gelu_new, swish
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 class Residual(nn.Module): 
     def __init__(self, in_channels, out_channels, kernel_size, padding, use_1x1conv=False, stride=1):
         super(Residual, self).__init__()
         self.conv1 = nn.Sequential(
-            nn.Conv3d(in_channels, out_channels,kernel_size=kernel_size, padding=padding, stride=stride),
+            nn.Conv3d(in_channels, out_channels,
+                      kernel_size=kernel_size, padding=padding, stride=stride),
             nn.ReLU()
         )
-        self.conv2 = nn.Conv3d(out_channels, out_channels,kernel_size=kernel_size, padding=padding,stride=stride)
+        self.conv2 = nn.Conv3d(out_channels, out_channels,
+                               kernel_size=kernel_size, padding=padding,stride=stride)
         if use_1x1conv:
             self.conv3 = nn.Conv3d(in_channels, out_channels, kernel_size=1, stride=stride)
         else:
             self.conv3 = None
-        self.bn1 = nn.BatchNorm3d(out_channels) 
+        self.bn1 = nn.BatchNorm3d(out_channels)
         self.bn2 = nn.BatchNorm3d(out_channels)
 
     def forward(self, X):
@@ -50,7 +50,6 @@ class MinMaxCNNLayer(nn.Module):
     conv1 = self.cnn(x)
     conv2 = (-1) * conv1
     conv3 = torch.cat((conv1,conv2),dim=1)
-    
     return conv3
     
 class SSRN_MINMAX(nn.Module):
