@@ -27,8 +27,8 @@ class Residual(nn.Module):
             #nn.Conv3d(in_channels, out_channels, kernel_size=1, stride=stride)
         else:
             self.conv3 = None
-        self.bn1 = nn.BatchNorm3d(out_channels)
-        self.bn2 = nn.BatchNorm3d(out_channels)
+        self.bn1 = nn.BatchNorm3d(out_channels*2)
+        self.bn2 = nn.BatchNorm3d(out_channels*2)
 
     def forward(self, X):
         Y = F.relu(self.bn1(self.conv1(X)))
