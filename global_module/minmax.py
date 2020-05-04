@@ -28,7 +28,7 @@ class Residual(nn.Module):
         else:
             self.conv3 = None
         self.bn1 = nn.BatchNorm3d(out_channels*2)  #*2 was modification
-        self.bn2 = nn.BatchNorm3d(out_channels)
+        self.bn2 = nn.BatchNorm3d(out_channels*2)
 
     def forward(self, X):
         Y = F.relu(self.bn1(self.conv1(X)))
@@ -66,10 +66,10 @@ class SSRN_MINMAX(nn.Module):
             nn.ReLU(inplace=True)
         )
 
-        self.res_net1 = Residual(24*2, 24*2*2, (1, 1, 7), (0, 0, 3))
-        self.res_net2 = Residual(24*2, 24*2*2, (1, 1, 7), (0, 0, 3))
-        self.res_net3 = Residual(24*2, 24*2*2, (3, 3, 1), (1, 1, 0))
-        self.res_net4 = Residual(24*2, 24*2*2, (3, 3, 1), (1, 1, 0))
+        self.res_net1 = Residual(24*2, 24*2, (1, 1, 7), (0, 0, 3))
+        self.res_net2 = Residual(24*2, 24*2, (1, 1, 7), (0, 0, 3))
+        self.res_net3 = Residual(24*2, 24*2, (3, 3, 1), (1, 1, 0))
+        self.res_net4 = Residual(24*2, 24*2, (3, 3, 1), (1, 1, 0))
 
         kernel_3d = math.ceil((band - 6) / 2)
 
