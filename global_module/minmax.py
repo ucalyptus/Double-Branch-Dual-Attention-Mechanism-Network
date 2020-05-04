@@ -16,14 +16,15 @@ class Residual(nn.Module):
     def __init__(self, in_channels, out_channels, kernel_size, padding, use_1x1conv=False, stride=1):
         super(Residual, self).__init__()
         self.conv1 = nn.Sequential(
-            nn.Conv3d(in_channels, out_channels,
-                      kernel_size=kernel_size, padding=padding, stride=stride),
+            #nn.Conv3d(in_channels, out_channels,kernel_size=kernel_size, padding=padding, stride=stride),
+            MinMaxCNNLayer(in_channels,out_channels,kernelsize=kernel_size,paddinglength=padding,stride=stride),
             nn.ReLU()
         )
-        self.conv2 = nn.Conv3d(out_channels, out_channels,
-                               kernel_size=kernel_size, padding=padding,stride=stride)
+        self.conv2 = MinMaxCNNLayer(out_channels,out_channels,kernelsize=kernel_size,paddinglength=padding,stride=stride)
+        #nn.Conv3d(out_channels, out_channels,kernel_size=kernel_size, padding=padding,stride=stride)
         if use_1x1conv:
-            self.conv3 = nn.Conv3d(in_channels, out_channels, kernel_size=1, stride=stride)
+            self.conv3 = MinMaxCNNLayer(in_channels,out_channels,kernelsize=1,stride=stride,paddinglength=0)
+            #nn.Conv3d(in_channels, out_channels, kernel_size=1, stride=stride)
         else:
             self.conv3 = None
         self.bn1 = nn.BatchNorm3d(out_channels)
