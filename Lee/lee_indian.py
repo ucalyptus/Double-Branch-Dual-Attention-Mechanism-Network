@@ -79,7 +79,7 @@ for index_iter in range(ITER):
     time_1 = int(time.time())
     np.random.seed(seeds[index_iter])
     train_indices, test_indices = sample_gt(gt, VALIDATION_SPLIT, mode='random')
-    _, total_indices = sample_gt(gt, 1, mode='random')
+    _, total_indices = sample_gt(gt, 1.00, mode='random')
     
 
     TRAIN_SIZE = len(train_indices)
