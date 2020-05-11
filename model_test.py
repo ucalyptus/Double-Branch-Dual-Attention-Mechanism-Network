@@ -49,14 +49,14 @@ class LeeEtAl(nn.Module):
         # is the same as the fully connected layers of Alexnet
         self.conv6 = nn.Conv2d(128, 128, (1, 1))
         self.conv7 = nn.Conv2d(128, 128, (1, 1))
-        self.conv8 = nn.Conv2d(128, n_classes, (1, 1))
+        self.conv8 = nn.Conv2d(128, n_classes, (9, 9))
 
         self.lrn1 = nn.LocalResponseNorm(256)
         self.lrn2 = nn.LocalResponseNorm(128)
 
         # The 7 th and 8 th convolutional layers have dropout in training
         self.dropout = nn.Dropout(p=0.5)
-
+        
         self.apply(self.weight_init)
 
     def forward(self, x):
@@ -93,6 +93,8 @@ class LeeEtAl(nn.Module):
         x = F.relu(self.conv7(x))
         x = self.dropout(x)
         x = self.conv8(x)
+        x = x.squeeze(2).squeeze(2)
+        print(x.shape)
         return x
 
 net = LeeEtAl(200,16).to(device)
