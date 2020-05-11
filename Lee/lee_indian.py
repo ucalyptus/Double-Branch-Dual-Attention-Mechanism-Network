@@ -102,10 +102,11 @@ for index_iter in range(ITER):
     tic2 = time.clock()
     with torch.no_grad():
         for X, y in test_iter:
+            print(X.shape)
+            print(y.shape)
             X = X.to(device)
             net.eval() 
             y_hat = net(X)
-            # print(net(X))
             pred_test_fdssc.extend(np.array(net(X).cpu().argmax(axis=1)))
     toc2 = time.clock()
     collections.Counter(pred_test_fdssc)
