@@ -148,6 +148,67 @@ def sampling(proportion, ground_truth):
     np.random.shuffle(test_indexes)
     return train_indexes, test_indexes
 
+def sample_gt(gt, train_size, mode='random'):
+    """Extract a fixed percentage of samples from an array of labels.
+    Args:
+        gt: a 2D array of int labels
+        percentage: [0, 1] float
+    Returns:
+        train_gt, test_gt: 2D arrays of int labels
+    """
+    indices = np.nonzero(gt)
+    X = list(zip(*indices)) # x,y features
+    y = gt[indices].ravel() # classes
+    train_gt = np.zeros_like(gt)
+    test_gt = np.zeros_like(gt)
+    if train_size > 1:
+        train_size = int(train_size)
+    
+    if mode == 'random':
+        train_indices, test_indices = sklearn.model_selection.train_test_split(X, train_size=train_size, stratify=y)
+        train_indices = [list(t) for t in zip(*train_indices)]
+        test_indices = [list(t) for t in zip(*test_indices)]
+        train_gt[train_indices] = gt[train_indices]
+        test_gt[test_indices] = gt[test_indices]
+    elif mode == 'fixed':
+        print("Sampling {} with train size = {}".format(mode, train_size))
+        train_indices, test_indices = [], []
+        for c in np.unique(gt):
+            if c == 0:
+                continue
+            indices = np.nonzero(gt == c)
+            X = list(zip(*indices)) # x,y features
+
+            train, test = sklearn.model_selection.train_test_split(X, train_size=train_size)
+            train_indices += train
+            test_indices += test
+            train_indices = [list(t) for t in zip(*train_indices)]
+            test_indices = [list(t) for t in zip(*test_indices)]
+            train_gt[train_indices] = gt[train_indices]
+            test_gt[test_indices] = gt[test_indices]
+
+    elif mode == 'disjoint':
+        train_gt = np.copy(gt)
+        test_gt = np.copy(gt)
+        for c in np.unique(gt):
+            mask = gt == c
+            for x in range(gt.shape[0]):
+                first_half_count = np.count_nonzero(mask[:x, :])
+                second_half_count = np.count_nonzero(mask[x:, :])
+                try:
+                    ratio = first_half_count / second_half_count
+                    if ratio > 0.9 * train_size and ratio < 1.1 * train_size:
+                        break
+                except ZeroDivisionError:
+                    continue
+            mask[:x, :] = 0
+            train_gt[mask] = 0
+
+        test_gt[train_gt > 0] = 0
+    else:
+        raise ValueError("{} sampling is not implemented yet.".format(mode))
+    return train_gt, test_gt
+
 def aa_and_each_accuracy(confusion_matrix):
     list_diag = np.diag(confusion_matrix)
     list_raw_sum = np.sum(confusion_matrix, axis=1)
