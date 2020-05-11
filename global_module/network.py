@@ -32,7 +32,7 @@ class LeeEtAl(nn.Module):
         # image with two convolutional filters with different sizes
         # (1x1xB and 3x3xB where B is the number of spectral bands)
         self.conv_3x3 = nn.Conv3d(
-            1, 128, ( 3, 3,in_channels), stride=(1, 1, 1), padding=0)
+            1, 128, ( 3, 3,in_channels), stride=(2, 2, 1), padding=0)
         self.conv_1x1 = nn.Conv3d(
             1, 128, ( 1, 1,in_channels), stride=(1, 1, 1), padding=0)
 
