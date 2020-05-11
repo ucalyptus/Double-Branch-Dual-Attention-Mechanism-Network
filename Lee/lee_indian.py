@@ -12,7 +12,7 @@ import sys
 sys.path.append('../global_module/')
 import network
 import train
-from generate_pic import aa_and_each_accuracy,load_dataset, generate_png, generate_iter,sample_gt
+from generate_pic import aa_and_each_accuracy,load_dataset, generate_png, generate_iter,sample_gt,sampling,balanced_sampling
 from Utils import record, extract_samll_cubic
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -78,8 +78,8 @@ for index_iter in range(ITER):
     optimizer = optim.Adam(net.parameters(), lr=lr)  # , weight_decay=0.0001)
     time_1 = int(time.time())
     np.random.seed(seeds[index_iter])
-    train_indices, test_indices = sample_gt(gt,VALIDATION_SPLIT)
-    _, total_indices = sample_gt(gt,1)
+    train_indices, test_indices = balanced_sampling(gt)
+    _, total_indices = sampleing(1,gt)
     
 
     TRAIN_SIZE = len(train_indices)
