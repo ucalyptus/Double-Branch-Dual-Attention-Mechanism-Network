@@ -11,6 +11,44 @@ import sys
 sys.path.append('../global_module/')
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+class Path2D(nn.Module):
+    def __init__(self,band,classes):
+        super(Path2D, self).__init__()
+        self.name = 'Path2D'
+        self.conv2d_1 = nn.Sequential(nn.Conv2d(200, 128, 3), 
+                        nn.ReLU())
+        
+        self.conv2d_2 = nn.Sequential(nn.Conv2d(128, 64, 3),
+                        nn.ReLU())
+                        
+        self.conv2d_3 = nn.Sequential(nn.Conv2d( 64,64, 3),
+                        nn.ReLU())
+        
+    def forward(self, x):
+        x = self.conv2d_1(x)
+        x = self.conv2d_2(x)
+        x = self.conv2d_3(x)
+        return x
+
+class Path3D(nn.Module):
+    def __init__(self,band,classes):
+        super(Path3D, self).__init__()
+        self.name = 'Path3D'
+        self.conv3d_1 = nn.Sequential(nn.Conv3d(1, 8, (3,3,11)), 
+                        nn.ReLU())
+        
+        self.conv3d_2 = nn.Sequential(nn.Conv3d(8, 16, (3,3,7)),
+                        nn.ReLU())
+                        
+        self.conv3d_3 = nn.Sequential(nn.Conv3d( 16,64, (3,3,5)),
+                        nn.ReLU())
+    def forward(self, x):
+        x = x.unsqueeze(1)
+        x = x.permute(0,1,3,4,2)
+        x = self.conv3d_1(x)
+        x = self.conv3d_2(x)
+        x = self.conv3d_3(x)
+        return torch.mean(x,dim=4)
 
 class BiLinearSKNet(nn.Module):
   def __init__(self, band, classes,reduction):
