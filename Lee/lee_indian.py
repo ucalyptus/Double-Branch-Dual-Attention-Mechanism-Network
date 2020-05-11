@@ -102,8 +102,6 @@ for index_iter in range(ITER):
     tic2 = time.clock()
     with torch.no_grad():
         for X, y in test_iter:
-            print(X.shape)
-            print(y.shape)
             X = X.to(device)
             net.eval() 
             y_hat = net(X)
