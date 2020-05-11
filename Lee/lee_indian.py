@@ -6,8 +6,6 @@ import torch
 from sklearn import metrics, preprocessing
 import datetime
 from torchsummary import summary
-
-
 import sys
 sys.path.append('../global_module/')
 import network
@@ -78,8 +76,9 @@ for index_iter in range(ITER):
     optimizer = optim.Adam(net.parameters(), lr=lr)  # , weight_decay=0.0001)
     time_1 = int(time.time())
     np.random.seed(seeds[index_iter])
-    train_indices, test_indices = sampling(VALIDATION_SPLIT,gt)
-    _, total_indices = sampling(1,gt)
+    #train_indices, test_indices = sampling(VALIDATION_SPLIT,gt)
+    train_indices, test_indices = sample_gt(gt,VALIDATION_SPLIT,mode='disjoint')
+    #_, total_indices = sampling(1,gt)
     
 
     TRAIN_SIZE = len(train_indices)
@@ -132,7 +131,7 @@ location = 'records/' + method + '_' + Dataset + '_' +str(BAND)+ '_'  + str(VALI
 
 
 
-generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices)
+#generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices)
 print("location=\"",end="")
 print("./records/"+ method + '_' + Dataset + '_' +str(BAND)+ '_'  + str(VALIDATION_SPLIT)  + '.txt',end="")
 print("\"")
