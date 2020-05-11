@@ -79,7 +79,7 @@ for index_iter in range(ITER):
     time_1 = int(time.time())
     np.random.seed(seeds[index_iter])
     train_indices, test_indices = balanced_sampling(gt)
-    _, total_indices = sampleing(1,gt)
+    _, total_indices = sampling(1,gt)
     
 
     TRAIN_SIZE = len(train_indices)
