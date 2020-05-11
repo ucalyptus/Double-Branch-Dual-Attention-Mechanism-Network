@@ -97,32 +97,32 @@ for index_iter in range(ITER):
     train.train(net, train_iter, valida_iter, loss, optimizer, device, epochs=num_epochs)
     toc1 = time.clock()
 
-    pred_test_fdssc = []
+    pred_test  = []
     tic2 = time.clock()
     with torch.no_grad():
         for X, y in test_iter:
             X = X.to(device)
             net.eval() 
             y_hat = net(X)
-            pred_test_fdssc.extend(np.array(net(X).cpu().argmax(axis=1)))
+            pred_test .extend(np.array(net(X).cpu().argmax(axis=1)))
     toc2 = time.clock()
-    collections.Counter(pred_test_fdssc)
+    collections.Counter(pred_test )
     gt_test = gt[test_indices] - 1
 
 
-    overall_acc_fdssc = metrics.accuracy_score(pred_test_fdssc, gt_test[:-VAL_SIZE])
-    confusion_matrix_fdssc = metrics.confusion_matrix(pred_test_fdssc, gt_test[:-VAL_SIZE])
-    print(confusion_matrix_fdssc)
-    each_acc_fdssc, average_acc_fdssc = aa_and_each_accuracy(confusion_matrix_fdssc)
-    kappa = metrics.cohen_kappa_score(pred_test_fdssc, gt_test[:-VAL_SIZE])
+    overall_acc  = metrics.accuracy_score(pred_test , gt_test[:-VAL_SIZE])
+    confusion_matrix  = metrics.confusion_matrix(pred_test , gt_test[:-VAL_SIZE])
+    print(confusion_matrix )
+    each_acc , average_acc  = aa_and_each_accuracy(confusion_matrix )
+    kappa = metrics.cohen_kappa_score(pred_test , gt_test[:-VAL_SIZE])
 
-    torch.save(net.state_dict(), "./net/" + str(round(overall_acc_fdssc, 3)) + '.pt')
+    torch.save(net.state_dict(), "./net/" + str(round(overall_acc , 3)) + '.pt')
     KAPPA.append(kappa)
-    OA.append(overall_acc_fdssc)
-    AA.append(average_acc_fdssc)
+    OA.append(overall_acc )
+    AA.append(average_acc )
     TRAINING_TIME.append(toc1 - tic1)
     TESTING_TIME.append(toc2 - tic2)
-    ELEMENT_ACC[index_iter, :] = each_acc_fdssc
+    ELEMENT_ACC[index_iter, :] = each_acc 
 
 print("--------" + net.name + " Training Finished-----------")
 record.record_output(OA, AA, KAPPA, ELEMENT_ACC, TRAINING_TIME, TESTING_TIME,
