@@ -107,6 +107,7 @@ def sample_gt(gt, train_size, mode='random'):
         test_indices = [list(t) for t in zip(*test_indices)]
         train_gt[train_indices] = gt[train_indices]
         test_gt[test_indices] = gt[test_indices]
+        
     elif mode == 'fixed':
         print("Sampling {} with train size = {}".format(mode, train_size))
         train_indices, test_indices = [], []
