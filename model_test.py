@@ -68,6 +68,7 @@ class BiLinearSKNet(nn.Module):
     self.fc = nn.Linear(576,classes)    
 
   def forward(self,x):
+    x = x.view(-1,200,9,9)
     P2 = self.Path2D(x)
     P3 = self.Path3D(x)
     conv1 = P2.unsqueeze(dim=1)
