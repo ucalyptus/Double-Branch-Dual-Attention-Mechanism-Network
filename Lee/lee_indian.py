@@ -78,8 +78,8 @@ for index_iter in range(ITER):
     optimizer = optim.Adam(net.parameters(), lr=lr)  # , weight_decay=0.0001)
     time_1 = int(time.time())
     np.random.seed(seeds[index_iter])
-    train_indices, test_indices = balanced_sampling(gt)
-    _, total_indices = sampling(1,gt)
+    train_indices, test_indices = sample_gt(gt, VALIDATION_SPLIT, mode='random')
+    _, total_indices = sample_gt(gt, 1, mode='random')
     
 
     TRAIN_SIZE = len(train_indices)
