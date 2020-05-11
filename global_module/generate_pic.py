@@ -15,12 +15,13 @@ for file in os.listdir(mydir):
     if file.endswith(".txt"):
         pass
         #print(file)
-print("All Bands")
-print("Def")
+print("Full")
+print("Test-Model")
+
 
 allband=False
 filename = input("Enter filename ")
-if filename=="Def":
+if filename=="Test-Model":
     allband=True
     split=0.95
 else:
@@ -28,7 +29,7 @@ else:
     if split > 1.00 or split <= 0.05:
         print("Split was wrong, defaulting to 0.95")
         split=0.95
-    if filename=="All Bands":
+    if filename=="200":
         allband=True
     else:
         nbands = int(input("Select Number of bands "))
@@ -208,6 +209,31 @@ def sample_gt(gt, train_size, mode='random'):
     else:
         raise ValueError("{} sampling is not implemented yet.".format(mode))
     return train_gt, test_gt
+    
+def balanced_sampling(groundTruth):              #divide dataset into train and test datasets
+    labels_loc = {}
+    train = {}
+    test = {}
+    m = max(groundTruth)
+    #amount = [3, 41, 29, 7, 14, 20, 2, 15, 3, 36, 64, 22, 4, 28, 10, 2]
+    amount = [43, 1387, 801, 230, 469, 710, 26, 463, 17, 936, 2391, 571, 201, 1237, 376, 91]
+    for i in range(m):
+        indices = [j for j, x in enumerate(groundTruth.ravel().tolist()) if x == i + 1]
+        np.random.shuffle(indices)
+        labels_loc[i] = indices
+        nb_val = int(amount[i])
+        train[i] = indices[:-nb_val]
+        test[i] = indices[-nb_val:]
+#    whole_indices = []
+    train_indices = []
+    test_indices = []
+    for i in range(m):
+#        whole_indices += labels_loc[i]
+        train_indices += train[i]
+        test_indices += test[i]
+    np.random.shuffle(train_indices)
+    np.random.shuffle(test_indices)
+    return train_indices, test_indices
 
 def aa_and_each_accuracy(confusion_matrix):
     list_diag = np.diag(confusion_matrix)
