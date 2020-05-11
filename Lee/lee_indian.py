@@ -78,7 +78,7 @@ for index_iter in range(ITER):
     optimizer = optim.Adam(net.parameters(), lr=lr)  # , weight_decay=0.0001)
     time_1 = int(time.time())
     np.random.seed(seeds[index_iter])
-    train_indices, test_indices = sample_gt(gt, VALIDATION_SPLIT, mode='fixed')
+    train_indices, test_indices = sampling(VALIDATION_SPLIT,gt)
     _, total_indices = sampling(1,gt)
     
 
