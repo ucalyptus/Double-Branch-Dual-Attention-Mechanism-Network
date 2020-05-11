@@ -10,7 +10,7 @@ import sklearn
 import ast
 import os
 
-split = float(input("Enter Validation Split"))
+split = float(input("Enter Validation Split "))
 
 
 def load_dataset(Dataset):
