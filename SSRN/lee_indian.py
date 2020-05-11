@@ -12,7 +12,7 @@ import sys
 sys.path.append('../global_module/')
 import network
 import train
-from generate_pic import aa_and_each_accuracy, sampling,load_dataset, generate_png, generate_iter
+from generate_pic import aa_and_each_accuracy,load_dataset, generate_png, generate_iter,sample_gt
 from Utils import record, extract_samll_cubic
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -70,7 +70,7 @@ whole_data = data_
 padded_data = np.lib.pad(whole_data, ((PATCH_LENGTH, PATCH_LENGTH), (PATCH_LENGTH, PATCH_LENGTH), (0, 0)),
 
                          'constant', constant_values=0)
-net = network.SSRN_network(BAND, CLASSES_NUM).to(device)
+net = network.LeeEtAl(BAND, CLASSES_NUM).to(device)
 summary(net,input_size=(1,img_rows,img_cols,BAND))
 for index_iter in range(ITER):
     print(f"ITER : {index_iter+1}")
@@ -78,8 +78,9 @@ for index_iter in range(ITER):
     optimizer = optim.Adam(net.parameters(), lr=lr)  # , weight_decay=0.0001)
     time_1 = int(time.time())
     np.random.seed(seeds[index_iter])
-    train_indices, test_indices = sampling(VALIDATION_SPLIT, gt)
-    _, total_indices = sampling(1, gt)
+    train_indices, test_indices = sample_gt(gt,VALIDATION_SPLIT)
+    _, total_indices = sample_gt(gt,1)
+    
 
     TRAIN_SIZE = len(train_indices)
     print('Train size: ', TRAIN_SIZE)
