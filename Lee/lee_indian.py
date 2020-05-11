@@ -77,7 +77,7 @@ for index_iter in range(ITER):
     time_1 = int(time.time())
     np.random.seed(seeds[index_iter])
     #train_indices, test_indices = sampling(VALIDATION_SPLIT,gt)
-    train_indices, test_indices = sample_gt(gt,VALIDATION_SPLIT,mode='disjoint')
+    train_indices, test_indices = sample_gt(gt,VALIDATION_SPLIT,mode='fixed')
     #_, total_indices = sampling(1,gt)
     
 
