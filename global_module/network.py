@@ -64,6 +64,8 @@ class LeeEtAl(nn.Module):
         # Inception module
         x_3x3 = self.conv_3x3(x)
         x_1x1 = self.conv_1x1(x)
+        print(x_3x3.shape)
+        print(x_1x1.shape)
         x = torch.cat([x_3x3, x_1x1], dim=1)
         # Remove the third dimension of the tensor
         x = torch.squeeze(x)
