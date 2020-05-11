@@ -131,7 +131,7 @@ location = 'records/' + method + '_' + Dataset + '_' +str(BAND)+ '_'  + str(VALI
 
 
 
-#generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices)
+generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices)
 print("location=\"",end="")
 print("./records/"+ method + '_' + Dataset + '_' +str(BAND)+ '_'  + str(VALIDATION_SPLIT)  + '.txt',end="")
 print("\"")
