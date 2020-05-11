@@ -56,6 +56,7 @@ class Path3D(nn.Module):
 class BiLinearSKNet(nn.Module):
   def __init__(self, band, classes,reduction):
     super(BiLinearSKNet, self).__init__()
+    self.name = 'BiLinearSKNet'
     self.Path3D = Path3D(band,classes)
     self.Path2D = Path2D(band,classes)
     channel=64

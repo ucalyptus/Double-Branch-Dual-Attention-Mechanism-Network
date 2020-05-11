@@ -12,88 +12,39 @@ sys.path.append('../global_module/')
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-class LeeEtAl(nn.Module):
-    """
-    CONTEXTUAL DEEP CNN BASED HYPERSPECTRAL CLASSIFICATION
-    Hyungtae Lee and Heesung Kwon
-    IGARSS 2016
-    """
-    @staticmethod
-    def weight_init(m):
-        if isinstance(m, nn.Linear) or isinstance(m, nn.Conv3d):
-            init.kaiming_uniform_(m.weight)
-            init.zeros_(m.bias)
+class BiLinearSKNet(nn.Module):
+  def __init__(self, band, classes,reduction):
+    super(BiLinearSKNet, self).__init__()
+    self.Path3D = Path3D(band,classes)
+    self.Path2D = Path2D(band,classes)
+    channel=64
+    self.conv1 = nn.Conv2d(channel, channel, 3, padding=1, bias=True)
+    self.conv2 = nn.Conv2d(channel, channel, 3, padding=2, dilation=2, bias=True)
+    self.pool = nn.AdaptiveAvgPool2d(1)
+    self.conv_se = nn.Sequential(
+        nn.Conv2d(channel, channel//reduction, 1, padding=0, bias=True),
+        nn.ReLU(inplace=True)
+    )
+    self.conv_ex = nn.Sequential(nn.Conv2d(channel//reduction, channel, 1, padding=0, bias=True))
+    self.softmax = nn.Softmax(dim=1)
+    self.fc = nn.Linear(576,classes)    
 
-    def __init__(self, in_channels, n_classes):
-        super(LeeEtAl, self).__init__()
-        # The first convolutional layer applied to the input hyperspectral
-        # image uses an inception module that locally convolves the input
-        # image with two convolutional filters with different sizes
-        # (1x1xB and 3x3xB where B is the number of spectral bands)
-        self.conv_3x3 = nn.Conv3d(
-            1, 128, ( 3, 3,in_channels), stride=(1, 1, 2), padding=(1,1,0))
-        self.conv_1x1 = nn.Conv3d(
-            1, 128, ( 1, 1,in_channels), stride=(1, 1, 1), padding=0)
+  def forward(self,x):
+    P2 = self.Path2D(x)
+    P3 = self.Path3D(x)
+    conv1 = P2.unsqueeze(dim=1)
+    conv2 = P3.unsqueeze(dim=1)
+    features = torch.cat([conv1, conv2], dim=1)
+    U = torch.sum(features, dim=1)
+    S = self.pool(U)
+    Z = self.conv_se(S)
+    attention_vector = torch.cat([self.conv_ex(Z).unsqueeze(dim=1), self.conv_ex(Z).unsqueeze(dim=1)], dim=1)
+    attention_vector = self.softmax(attention_vector)
+    V = (features * attention_vector).sum(dim=1)
+    batch,_,_,_ = V.size()
+    V = V.view(batch,-1)
+    return self.fc(V)
 
-        # We use two modules from the residual learning approach
-        # Residual block 1
-        self.conv1 = nn.Conv2d(256, 128, (1, 1))
-        self.conv2 = nn.Conv2d(128, 128, (1, 1))
-        self.conv3 = nn.Conv2d(128, 128, (1, 1))
-
-        # Residual block 2
-        self.conv4 = nn.Conv2d(128, 128, (1, 1))
-        self.conv5 = nn.Conv2d(128, 128, (1, 1))
-
-        # The layer combination in the last three convolutional layers
-        # is the same as the fully connected layers of Alexnet
-        self.conv6 = nn.Conv2d(128, 128, (1, 1))
-        self.conv7 = nn.Conv2d(128, 128, (1, 1))
-        self.conv8 = nn.Conv2d(128, n_classes, (9, 9))
-
-        self.lrn1 = nn.LocalResponseNorm(256)
-        self.lrn2 = nn.LocalResponseNorm(128)
-
-        # The 7 th and 8 th convolutional layers have dropout in training
-        self.dropout = nn.Dropout(p=0.5)
-        
-        self.apply(self.weight_init)
-
-    def forward(self, x):
-        # Inception module
-        x_3x3 = self.conv_3x3(x)
-        x_1x1 = self.conv_1x1(x)
-        x = torch.cat([x_3x3, x_1x1], dim=1)
-        # Remove the third dimension of the tensor
-        x = torch.squeeze(x)
-
-        # Local Response Normalization
-        x = F.relu(self.lrn1(x))
-
-        # First convolution
-        x = self.conv1(x)
-
-        # Local Response Normalization
-        x = F.relu(self.lrn2(x))
-
-        # First residual block
-        x_res = F.relu(self.conv2(x))
-        x_res = self.conv3(x_res)
-        x = F.relu(x + x_res)
-
-        # Second residual block
-        x_res = F.relu(self.conv4(x))
-        x_res = self.conv5(x_res)
-        x = F.relu(x + x_res)
-
-        x = F.relu(self.conv6(x))
-        x = self.dropout(x)
-        x = F.relu(self.conv7(x))
-        x = self.dropout(x)
-        x = self.conv8(x)
-        x = x.squeeze(2).squeeze(2)
-        return x
-
-net = LeeEtAl(200,16).to(device)
+net = BiLinearSKNet(200,16,4).to(device)
 from torchsummary import summary
 print(summary(net,(1,9,9,200),batch_size=16))

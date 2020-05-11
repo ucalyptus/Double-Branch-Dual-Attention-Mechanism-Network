@@ -70,7 +70,7 @@ whole_data = data_
 padded_data = np.lib.pad(whole_data, ((PATCH_LENGTH, PATCH_LENGTH), (PATCH_LENGTH, PATCH_LENGTH), (0, 0)),
 
                          'constant', constant_values=0)
-net = network.BiLinearSKNet(BAND, CLASSES_NUM).to(device)
+net = network.BiLinearSKNet(BAND, CLASSES_NUM,4).to(device)
 summary(net,input_size=(1,img_rows,img_cols,BAND))
 for index_iter in range(ITER):
     print(f"ITER : {index_iter+1}")
