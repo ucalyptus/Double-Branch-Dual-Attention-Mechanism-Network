@@ -105,8 +105,8 @@ def sample_gt(gt, train_size, mode='random'):
         train_indices, test_indices = sklearn.model_selection.train_test_split(X, train_size=train_size, stratify=y) #ok
         train_indices = [list(t) for t in zip(*train_indices)]
         test_indices = [list(t) for t in zip(*test_indices)]
-        train_gt[train_indices] = gt[train_indices]
-        test_gt[test_indices] = gt[test_indices]
+        train_gt[tuple(train_indices)] = gt[tuple(train_indices)]
+        test_gt[tuple(test_indices)] = gt[tuple(test_indices)]
         
     elif mode == 'fixed':
         print("Sampling {} with train size = {}".format(mode, train_size))
@@ -145,8 +145,8 @@ def sample_gt(gt, train_size, mode='random'):
         test_gt[train_gt > 0] = 0
     else:
         raise ValueError("{} sampling is not implemented yet.".format(mode))
-    return train_indices,test_indices
-    #return train_gt, test_gt
+    
+    return train_gt, test_gt
     
 def balanced_sampling(groundTruth):              #divide dataset into train and test datasets
     labels_loc = {}
