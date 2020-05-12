@@ -96,7 +96,8 @@ def sample_gt(gt, train_size, mode='random'):
     indices = np.nonzero(gt)
     X = list(zip(*indices)) # x,y features
     y = gt[indices].ravel() # classes
-    print(X.shape,y.shape)
+    print(X)
+    print(y)
     train_gt = np.zeros_like(gt)
     test_gt = np.zeros_like(gt)
     if train_size > 1:
