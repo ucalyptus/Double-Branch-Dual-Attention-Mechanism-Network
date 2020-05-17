@@ -94,4 +94,5 @@ class HamidaEtAl(nn.Module):
         x = x.view(-1, 45500)#self.features_size)
         #x = self.dropout(x)
         x = self.fc(x)
+        print(x.shape)
         return x
