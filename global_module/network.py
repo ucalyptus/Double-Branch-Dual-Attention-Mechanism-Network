@@ -90,9 +90,10 @@ class HamidaEtAl(nn.Module):
         x = F.relu(self.conv3(x))
         
         x = F.relu(self.conv4(x))
-        
+        print(x.shape)
         x = x.view(-1, 45500)#self.features_size)
         #x = self.dropout(x)
+        print(x.shape)
         x = self.fc(x)
         print(x.shape)
         return x
