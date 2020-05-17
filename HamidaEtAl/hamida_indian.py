@@ -12,7 +12,7 @@ import network
 import train
 import sklearn
 import sklearn.model_selection
-from generate_pic import aa_and_each_accuracy,load_dataset, generate_png, generate_iter,sample_gt,sampling
+from generate_pic import aa_and_each_accuracy,load_dataset, generate_png, generate_iter,sampling
 from Utils import record, extract_samll_cubic
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -79,7 +79,7 @@ for index_iter in range(ITER):
     time_1 = int(time.time())
     np.random.seed(seeds[index_iter])
     #train_indices, test_indices = sampling(VALIDATION_SPLIT,gt)
-    train_indices, test_indices = sample_gt(gt,VALIDATION_SPLIT,mode='random')
+    train_indices, test_indices = sampling(VALIDATION_SPLIT,gt)
     _, total_indices = sampling(1,gt)
     
 
