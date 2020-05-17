@@ -92,7 +92,7 @@ class HamidaEtAl(nn.Module):
         x = F.relu(self.conv4(x))
         
         x = x.view(-1, self.features_size)
-        x = self.dropout(x)
+        
         
         x = self.fc(x)
         
