@@ -62,7 +62,7 @@ class HamidaEtAl(nn.Module):
         # The architecture ends with a fully connected layer where the number
         # of neurons is equal to the number of input classes.
         #self.fc = nn.Linear(self.features_size, n_classes)
-        self.fc = nn.Linear(45500,16)
+        self.fc = nn.Linear(45500//2,16)
 
         self.apply(self.weight_init)
 
@@ -91,7 +91,7 @@ class HamidaEtAl(nn.Module):
         
         x = F.relu(self.conv4(x))
         print(x.shape)
-        x = x.view(-1, 45500)#self.features_size)
+        x = x.view(16, 45500//2)#self.features_size)
         #x = self.dropout(x)
         print(x.shape)
         x = self.fc(x)
