@@ -71,7 +71,7 @@ padded_data = np.lib.pad(whole_data, ((PATCH_LENGTH, PATCH_LENGTH), (PATCH_LENGT
 
                          'constant', constant_values=0)
 net = network.HamidaEtAl(BAND, CLASSES_NUM).to(device)
-
+summary(net,(1,200,9,9),batch_size=16)
 for index_iter in range(ITER):
     print(f"ITER : {index_iter+1}")
     
