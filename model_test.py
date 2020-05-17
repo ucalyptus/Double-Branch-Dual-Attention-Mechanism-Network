@@ -24,11 +24,12 @@ class HamidaEtAl(nn.Module):
             init.kaiming_normal_(m.weight)
             init.zeros_(m.bias)
 
-    def __init__(self, input_channels, n_classes, patch_size=9, dilation=1):
+    def __init__(self, input_channels, n_classes, patch_size=11, dilation=1):
         super(HamidaEtAl, self).__init__()
         # The first layer is a (3,3,3) kernel sized Conv characterized
         # by a stride equal to 1 and number of neurons equal to 20
         self.patch_size = patch_size
+        self.name = 'HamidaEtAl'
         self.input_channels = input_channels
         dilation = (dilation, 1, 1)
 
@@ -64,6 +65,7 @@ class HamidaEtAl(nn.Module):
         # The architecture ends with a fully connected layer where the number
         # of neurons is equal to the number of input classes.
         self.fc = nn.Linear(self.features_size, n_classes)
+        #self.fc = nn.Linear(22750*2,n_classes)
 
         self.apply(self.weight_init)
 
@@ -79,16 +81,25 @@ class HamidaEtAl(nn.Module):
         return t * c * w * h
 
     def forward(self, x):
+        
         x = F.relu(self.conv1(x))
+        
         x = self.pool1(x)
+        
         x = F.relu(self.conv2(x))
+        
         x = self.pool2(x)
+        
         x = F.relu(self.conv3(x))
+        
         x = F.relu(self.conv4(x))
+        
         x = x.view(-1, self.features_size)
-        #x = self.dropout(x)
+        
+        
         x = self.fc(x)
+        
         return x
 net = HamidaEtAl(200,16).to(device)
 from torchsummary import summary
-print(summary(net,(1,200,9,9),batch_size=16))
+print(summary(net,(1,200,11,11),batch_size=16))

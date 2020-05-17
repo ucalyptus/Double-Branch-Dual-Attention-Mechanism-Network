@@ -42,7 +42,7 @@ print('The class numbers of the HSI data is:', CLASSES_NUM)
 
 print('-----Importing Setting Parameters-----')
 ITER = int(input("Enter num of iterations "))
-PATCH_LENGTH = 4
+PATCH_LENGTH = 5
 # number of training samples per class
 #lr, num_epochs, batch_size = 0.0001, 200, 32
 lr, num_epochs, batch_size = 0.0005, 200, 16
@@ -71,7 +71,7 @@ padded_data = np.lib.pad(whole_data, ((PATCH_LENGTH, PATCH_LENGTH), (PATCH_LENGT
 
                          'constant', constant_values=0)
 net = network.HamidaEtAl(BAND, CLASSES_NUM).to(device)
-summary(net,(1,200,9,9),batch_size=16)
+summary(net,(1,200,11,11),batch_size=16)
 for index_iter in range(ITER):
     print(f"ITER : {index_iter+1}")
     
