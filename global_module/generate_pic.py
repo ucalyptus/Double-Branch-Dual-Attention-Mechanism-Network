@@ -324,7 +324,7 @@ def generate_iter(TRAIN_SIZE, train_indices, TEST_SIZE, test_indices, TOTAL_SIZE
     )
     return train_iter, valiada_iter, test_iter, all_iter #, y_test
 
-def generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices):
+def generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices,VALIDATION_SPLIT):
     pred_test = []
     for X, y in all_iter:
         X = X.to(device)
@@ -359,7 +359,7 @@ def generate_png(all_iter, net, gt_hsi, Dataset, device, total_indices):
     path = '../' + net.name
     
     classification_map(y_re, gt_hsi, 300,
-                       path + '/classification_maps/'  + '_' + Dataset +  '.pdf')
+                       path + '/classification_maps/' +str(VALIDATION_SPLIT) + '_' + Dataset +  '.pdf')
     classification_map(gt_re, gt_hsi, 300,
-                       path + '/classification_maps/' + Dataset + '_gt.pdf')
+                       path + '/classification_maps/' +str(VALIDATION_SPLIT) + Dataset + '_gt.pdf')
     print('------Get classification maps successful-------')
