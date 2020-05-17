@@ -29,7 +29,7 @@ print('-----Importing Dataset-----')
 
 
 global Dataset  # UP,IN,KSC
-dataset = 'IN'
+dataset = 'SV'
 Dataset = dataset.upper()
 data_hsi, gt_hsi, TOTAL_SIZE, TRAIN_SIZE,VALIDATION_SPLIT,method = load_dataset(Dataset)
 
