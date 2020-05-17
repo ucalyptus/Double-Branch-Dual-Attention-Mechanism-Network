@@ -61,7 +61,8 @@ class HamidaEtAl(nn.Module):
         self.features_size = self._get_final_flattened_size()
         # The architecture ends with a fully connected layer where the number
         # of neurons is equal to the number of input classes.
-        self.fc = nn.Linear(self.features_size, n_classes)
+        #self.fc = nn.Linear(self.features_size, n_classes)
+        self.fc = nn.Linear(137200,16)
 
         self.apply(self.weight_init)
 
