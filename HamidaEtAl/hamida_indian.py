@@ -10,6 +10,8 @@ import sys
 sys.path.append('../global_module/')
 import network
 import train
+import sklearn
+import sklearn.model_selection
 from generate_pic import aa_and_each_accuracy,load_dataset, generate_png, generate_iter,sample_gt,sampling
 from Utils import record, extract_samll_cubic
 
