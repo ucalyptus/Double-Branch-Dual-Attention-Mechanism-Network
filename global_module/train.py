@@ -49,6 +49,7 @@ def train(net, train_iter, valida_iter, loss, optimizer, device, epochs=30, earl
             y_hat = net(X)
             # print('y_hat', y_hat)
             # print('y', y)
+            print(y_hat.shape)
             l = loss(y_hat, y.long())
 
             optimizer.zero_grad()
