@@ -27,6 +27,7 @@ class HamidaEtAl(nn.Module):
         # The first layer is a (3,3,3) kernel sized Conv characterized
         # by a stride equal to 1 and number of neurons equal to 20
         self.patch_size = patch_size
+        self.name = 'HamidEtAl'
         self.input_channels = input_channels
         dilation = (dilation, 1, 1)
 
