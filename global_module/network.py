@@ -77,12 +77,15 @@ class HamidaEtAl(nn.Module):
         return t * c * w * h
 
     def forward(self, x):
+        print(x.shape)
         x = F.relu(self.conv1(x))
         x = self.pool1(x)
         x = F.relu(self.conv2(x))
+
         x = self.pool2(x)
         x = F.relu(self.conv3(x))
         x = F.relu(self.conv4(x))
+        print(x.shape)
         x = x.view(-1, self.features_size)
         #x = self.dropout(x)
         x = self.fc(x)
