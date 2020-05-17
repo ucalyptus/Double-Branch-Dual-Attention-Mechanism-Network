@@ -1,2 +1,2 @@
 git pull
-python hamida_indian.py
+python hamida_$1.py
