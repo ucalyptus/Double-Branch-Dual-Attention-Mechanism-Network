@@ -249,23 +249,31 @@ class LeNet5(torch.nn.Module):
         
     def forward(self, x):
         # convolve, then perform ReLU non-linearity
+        print(x.shape)
         x = torch.nn.functional.relu(self.conv1(x))
         # max-pooling with 2x2 grid 
+        print(x.shape)
         x = self.max_pool_1(x) 
+        print(x.shape)
         # convolve, then perform ReLU non-linearity
         x = torch.nn.functional.relu(self.conv2(x))
+        print(x.shape)
         # max-pooling with 2x2 grid
         x = self.max_pool_2(x)
+        print(x.shape)
         # first flatten 'max_pool_2_out' to contain 16*5*5 columns
         # read through https://stackoverflow.com/a/42482819/7551231
         N,C,H,W = x.size()
         x = x.view(N, C*H*W)
-        
+        print(x.shape)
         # FC-1, then perform ReLU non-linearity
         x = torch.nn.functional.relu(self.fc1(x))
+        print(x.shape)
         # FC-2, then perform ReLU non-linearity
         x = torch.nn.functional.relu(self.fc2(x))
+        print(x.shape)
         # FC-3
         x = self.fc3(x)
+        print(x.shape)
         
         return x
