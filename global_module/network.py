@@ -260,7 +260,7 @@ class LeNet5(torch.nn.Module):
         # read through https://stackoverflow.com/a/42482819/7551231
         N,C,H,W = x.size()
         x = x.view(N, C*H*W)
-        print(x.shape)
+        
         # FC-1, then perform ReLU non-linearity
         x = torch.nn.functional.relu(self.fc1(x))
         # FC-2, then perform ReLU non-linearity
