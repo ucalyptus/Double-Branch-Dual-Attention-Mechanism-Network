@@ -48,7 +48,7 @@ def train(net, train_iter, valida_iter, loss, optimizer, device, epochs=30, earl
             X = X.to(device)
             y = y.to(device)
             
-            print(X.shape)
+            
             y_hat = net(X)
             # print('y_hat', y_hat)
             # print('y', y)

@@ -258,7 +258,9 @@ class LeNet5(torch.nn.Module):
         x = self.max_pool_2(x)
         # first flatten 'max_pool_2_out' to contain 16*5*5 columns
         # read through https://stackoverflow.com/a/42482819/7551231
-        x = x.view(-1, 32)
+        N,C,H,W = x.size()
+        x = x.view(N, C*H*W)
+        print(x.shape)
         # FC-1, then perform ReLU non-linearity
         x = torch.nn.functional.relu(self.fc1(x))
         # FC-2, then perform ReLU non-linearity
