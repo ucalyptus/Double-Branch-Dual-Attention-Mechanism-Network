@@ -53,18 +53,14 @@ class HamidaEtAl(nn.Module):
         # thanks to the use of two Conv layers, 35 neurons each,
         # with respective kernel sizes of (1,1,3) and (1,1,2) and strides
         # respectively equal to (1,1,1) and (1,1,2)
-        self.conv3 = nn.Conv3d(
-            35, 35, (3, 1, 1), dilation=dilation, stride=(1, 1, 1), padding=(1, 0, 0))
-        self.conv4 = nn.Conv3d(
-            35, 35, (2, 1, 1), dilation=dilation, stride=(2, 1, 1), padding=(1, 0, 0))
-
+        
         #self.dropout = nn.Dropout(p=0.5)
 
         self.features_size = self._get_final_flattened_size()
         # The architecture ends with a fully connected layer where the number
         # of neurons is equal to the number of input classes.
         self.fc = nn.Linear(self.features_size, n_classes)
-        #self.fc = nn.Linear(22750*2,n_classes)
+        
 
         self.apply(self.weight_init)
 
@@ -74,8 +70,7 @@ class HamidaEtAl(nn.Module):
                              self.patch_size, self.patch_size))
             x = self.pool1(self.conv1(x))
             x = self.pool2(self.conv2(x))
-            x = self.conv3(x)
-            x = self.conv4(x)
+            
             _, t, c, w, h = x.size()
         return t * c * w * h
 
@@ -88,10 +83,6 @@ class HamidaEtAl(nn.Module):
         x = F.relu(self.conv2(x))
         
         x = self.pool2(x)
-        
-        x = F.relu(self.conv3(x))
-        
-        x = F.relu(self.conv4(x))
         
         x = x.view(-1, self.features_size)
         
