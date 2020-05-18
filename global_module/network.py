@@ -188,6 +188,7 @@ class Baseline(nn.Module):
     def __init__(self, input_channels, n_classes, dropout=False):
         super(Baseline, self).__init__()
         self.use_dropout = dropout
+        self.name = 'Baseline'
         if dropout:
             self.dropout = nn.Dropout(p=0.5)
         
