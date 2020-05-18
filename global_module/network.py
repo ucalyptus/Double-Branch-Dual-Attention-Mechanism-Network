@@ -73,7 +73,8 @@ class HamidaEtAl(nn.Module):
                              self.patch_size, self.patch_size))
             x = self.pool1(self.conv1(x))
             x = self.pool2(self.conv2(x))
-            
+            x = self.conv3(x)
+            x = self.conv4(x)
             _, t, c, w, h = x.size()
         return t * c * w * h
 

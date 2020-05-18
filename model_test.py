@@ -58,7 +58,6 @@ class HamidaEtAl(nn.Module):
             35, 35, (3, 1, 1), dilation=dilation, stride=(1, 1, 1), padding=(1, 0, 0))
         self.conv4 = nn.Conv3d(
             35, 35, (2, 1, 1), dilation=dilation, stride=(2, 1, 1), padding=(1, 0, 0))
-
         #self.dropout = nn.Dropout(p=0.5)
 
         self.features_size = self._get_final_flattened_size()
@@ -75,7 +74,8 @@ class HamidaEtAl(nn.Module):
                              self.patch_size, self.patch_size))
             x = self.pool1(self.conv1(x))
             x = self.pool2(self.conv2(x))
-            
+            x = self.conv3(x)
+            x = self.conv4(x)
             _, t, c, w, h = x.size()
         return t * c * w * h
 
@@ -88,14 +88,14 @@ class HamidaEtAl(nn.Module):
         x = F.relu(self.conv2(x))
         
         x = self.pool2(x)
-        
-        
+        x = F.relu(self.conv3(x))
+        x = F.relu(self.conv4(x))
         x = x.view(-1, self.features_size)
         
         
         x = self.fc(x)
         
         return x
-net = HamidaEtAl(200,16).to(device)
+net = HamidaEtAl(20,16).to(device)
 from torchsummary import summary
-print(summary(net,(1,200,11,11),batch_size=16))
+print(summary(net,(1,20,11,11),batch_size=16))
