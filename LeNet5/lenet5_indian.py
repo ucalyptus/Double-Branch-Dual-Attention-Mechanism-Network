@@ -104,9 +104,9 @@ for index_iter in range(ITER):
         for X, y in test_iter:
             X = X.squeeze(1)
             X = X.to(device)
-            net.eval() 
+            net.eval()
             y_hat = net(X)
-            pred_test .extend(np.array(net(X).cpu().argmax(axis=1)))
+            pred_test.extend(np.array(net(X).cpu().argmax(axis=1)))
     toc2 = time.clock()
     collections.Counter(pred_test )
     gt_test = gt[test_indices] - 1
