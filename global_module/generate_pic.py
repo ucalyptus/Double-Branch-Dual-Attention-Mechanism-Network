@@ -9,9 +9,17 @@ import torch.utils.data as Data
 import sklearn
 import ast
 import os
+from sklearn.decomposition import PCA
 
 split = float(input("Enter Validation Split "))
+reduced = int(input("Enter 1 for PCA, 0 for Full"))
 
+def applyPCA(X, numComponents=75):
+    newX = np.reshape(X, (-1, X.shape[2]))
+    pca = PCA(n_components=numComponents, whiten=True)
+    newX = pca.fit_transform(newX)
+    newX = np.reshape(newX, (X.shape[0],X.shape[1], numComponents))
+    return newX
 
 def load_dataset(Dataset):
     if Dataset == 'IN':
@@ -22,6 +30,8 @@ def load_dataset(Dataset):
         TOTAL_SIZE = 10249
         VALIDATION_SPLIT = split
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
+        if reduced:
+            data_hsi = applyPCA(data_hsi,20)
 
     if Dataset == 'UP':
         uPavia = sio.loadmat('../datasets/PaviaU.mat')
@@ -31,6 +41,8 @@ def load_dataset(Dataset):
         TOTAL_SIZE = 42776
         VALIDATION_SPLIT = split
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
+        if reduced:
+            data_hsi = applyPCA(data_hsi,20)
 
     if Dataset == 'SV':
         SV = sio.loadmat('../datasets/Salinas_corrected.mat')
@@ -40,7 +52,10 @@ def load_dataset(Dataset):
         TOTAL_SIZE = 54129
         VALIDATION_SPLIT = split
         TRAIN_SIZE = math.ceil(TOTAL_SIZE * VALIDATION_SPLIT)
-    filename="Full"
+        if reduced:
+            data_hsi = applyPCA(data_hsi,20)
+    
+    filename="PCA20" if reduced else "PCA20"
     return data_hsi, gt_hsi, TOTAL_SIZE, TRAIN_SIZE, VALIDATION_SPLIT,filename
 
 def save_cmap(img, cmap, fname):
