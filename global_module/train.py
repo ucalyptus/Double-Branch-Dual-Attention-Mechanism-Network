@@ -44,10 +44,10 @@ def train(net, train_iter, valida_iter, loss, optimizer, device, epochs=30, earl
         
         for X, y in train_iter:
             batch_count, train_l_sum = 0, 0
-            
+            X = X.squeeze(1)
             X = X.to(device)
             y = y.to(device)
-            X = X.squeeze(1)
+            
             print(X.shape)
             y_hat = net(X)
             # print('y_hat', y_hat)
