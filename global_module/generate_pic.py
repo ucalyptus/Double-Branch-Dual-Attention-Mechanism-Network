@@ -277,22 +277,25 @@ def generate_iter(TRAIN_SIZE, train_indices, TEST_SIZE, test_indices, TOTAL_SIZE
     # print(y1_train)
     #y1_train = to_categorical(y1_train)  # to one-hot labels
     x1_tensor_train = torch.from_numpy(x_train).type(torch.FloatTensor).unsqueeze(1)
+    x1_tensor_train = x1_tensor_train.permute(0,1,4,2,3)
     y1_tensor_train = torch.from_numpy(y_train).type(torch.FloatTensor)
     torch_dataset_train = Data.TensorDataset(x1_tensor_train, y1_tensor_train)
 
     x1_tensor_valida = torch.from_numpy(x_val).type(torch.FloatTensor).unsqueeze(1)
+    x1_tensor_valida = x1_tensor_valida.permute(0,1,4,2,3)
     y1_tensor_valida = torch.from_numpy(y_val).type(torch.FloatTensor)
     torch_dataset_valida = Data.TensorDataset(x1_tensor_valida, y1_tensor_valida)
 
     x1_tensor_test = torch.from_numpy(x_test).type(torch.FloatTensor).unsqueeze(1)
+    x1_tensor_test = x1_tensor_test.permute(0,1,4,2,3)
     y1_tensor_test = torch.from_numpy(y_test).type(torch.FloatTensor)
     torch_dataset_test = Data.TensorDataset(x1_tensor_test,y1_tensor_test)
 
     all_data.reshape(all_data.shape[0], all_data.shape[1], all_data.shape[2], INPUT_DIMENSION)
     all_tensor_data = torch.from_numpy(all_data).type(torch.FloatTensor).unsqueeze(1)
+    all_tensor_data = all_tensor_data.permute(0,1,4,2,3)
     all_tensor_data_label = torch.from_numpy(gt_all).type(torch.FloatTensor)
     torch_dataset_all = Data.TensorDataset(all_tensor_data, all_tensor_data_label)
-
 
     train_iter = Data.DataLoader(
         dataset=torch_dataset_train,  # torch TensorDataset format
