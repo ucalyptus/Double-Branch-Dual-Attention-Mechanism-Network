@@ -243,7 +243,7 @@ class LeNet5(torch.nn.Module):
         # Max-pooling
         self.max_pool_2 = torch.nn.MaxPool2d(kernel_size=2) 
         # Fully connected layer
-        self.fc1 = torch.nn.Linear(32, 120)   # convert matrix with 16*5*5 (= 400) features to a matrix of 120 features (columns)
+        self.fc1 = torch.nn.Linear(16, 120)   # convert matrix with 16*5*5 (= 400) features to a matrix of 120 features (columns)
         self.fc2 = torch.nn.Linear(120, 84)       # convert matrix with 120 features to a matrix of 84 features (columns)
         self.fc3 = torch.nn.Linear(84, n_classes)        # convert matrix with 84 features to a matrix of 10 features (columns)
         
