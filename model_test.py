@@ -26,11 +26,25 @@ class Baseline(nn.Module):
         self.use_dropout = dropout
         if dropout:
             self.dropout = nn.Dropout(p=0.5)
+        
         self.fc1 = nn.Linear(input_channels, 2048)
         self.fc2 = nn.Linear(2048, 4096)
         self.fc3 = nn.Linear(4096, 2048)
-        self.fc4 = nn.Linear(2048, n_classes)
+        self.input_channels = input_channels
+        self.features_size = self._get_final_flattened_size()
+        self.fc4 = nn.Linear(self.features_size, n_classes)
         self.apply(self.weight_init)
+    
+    def _get_final_flattened_size(self):
+        patch_size=11
+        with torch.no_grad():
+            x = torch.zeros((1, 1,patch_size, patch_size, self.input_channels))
+            x = F.relu(self.fc1(x))
+            x = F.relu(self.fc2(x))
+            x = F.relu(self.fc3(x))
+            _, t, c, w, h = x.size()
+        return t * c * w * h
+
 
     def forward(self, x):
         x = x.permute(0,1,3,4,2)
@@ -43,7 +57,11 @@ class Baseline(nn.Module):
         x = F.relu(self.fc3(x))
         if self.use_dropout:
             x = self.dropout(x)
+        
+        x = x.view(-1, self.features_size)
+        
         x = self.fc4(x)
+        
         return x
 
 net = Baseline(20,16).to(device)
