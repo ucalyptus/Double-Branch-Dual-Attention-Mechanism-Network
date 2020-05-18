@@ -70,7 +70,7 @@ whole_data = data_
 padded_data = np.lib.pad(whole_data, ((PATCH_LENGTH, PATCH_LENGTH), (PATCH_LENGTH, PATCH_LENGTH), (0, 0)),
 
                          'constant', constant_values=0)
-net = network.Baseline(BAND, CLASSES_NUM).to(device)
+net = network.LeNet5(BAND, CLASSES_NUM).to(device)
 summary(net,(1,BAND,img_rows,img_cols),batch_size=16)
 for index_iter in range(ITER):
     print(f"ITER : {index_iter+1}")
