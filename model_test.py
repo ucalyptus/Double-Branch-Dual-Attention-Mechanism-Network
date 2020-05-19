@@ -27,7 +27,7 @@ class ChenEtAl(nn.Module):
             init.normal_(m.weight, std=0.001)
             init.zeros_(m.bias)
 
-    def __init__(self, input_channels, n_classes, patch_size=9, n_planes=32):
+    def __init__(self, input_channels, n_classes, patch_size=11, n_planes=32):
         super(ChenEtAl, self).__init__()
         self.input_channels = input_channels
         self.n_planes = n_planes
@@ -78,6 +78,6 @@ class ChenEtAl(nn.Module):
         x = self.fc(x)
         return x
 
-net = ChenEtAl(200,16).to(device)
+net = ChenEtAl(20,16).to(device)
 from torchsummary import summary
-print(summary(net,(1,200,9,9),batch_size=16))
+print(summary(net,(1,20,11,11),batch_size=16))
