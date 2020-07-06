@@ -99,12 +99,20 @@ class Residual(nn.Module):  # 本类已保存在d2lzh_pytorch包中方便以后�
         self.bn2 = nn.BatchNorm3d(out_channels)
 
     def forward(self, X):
+        Y = F.relu(self.bn1(self.conv1(X)))
+        Y = self.bn2(self.conv2(Y))
+        if self.conv3:
+            X = self.conv3(X)
+        return F.relu(Y + X)
+"""
+    def forward(self, X):
         Y = F.relu(self.bn1((-1)*self.conv1(X)))
         Y = self.bn2((-1)*self.conv2(Y))
         if self.conv3:
             X = (-1)*self.conv3(X)
         return F.relu(Y + X)
 
+"""
 
 class Separable_Convolution(nn.Module):
     def __init__(self, in_channels, out_channels, padding=0, kernel_size=1, stride=1):
