@@ -100,7 +100,14 @@ class Residual(nn.Module):  # 本类已保存在d2lzh_pytorch包中方便以后�
         
         self.lrn1 = nn.LocalResponseNorm(out_channels)
         self.lrn2 = nn.LocalResponseNorm(out_channels)
-
+        
+    def forward(self, X):
+        Y = F.relu(self.lrn1((-1)*self.conv1(X)))
+        Y = F.relu(self.lrn2((-1)*self.conv2(Y)))
+        if self.conv3:
+            X = (-1)*self.conv3(X)
+        return F.relu(Y + X)
+    
 """
     def forward(self, X):
         Y = F.relu(self.bn1(self.conv1(X)))
@@ -109,12 +116,6 @@ class Residual(nn.Module):  # 本类已保存在d2lzh_pytorch包中方便以后�
             X = self.conv3(X)
         return F.relu(Y + X)
 """
-    def forward(self, X):
-        Y = F.relu(self.lrn1((-1)*self.conv1(X)))
-        Y = F.relu(self.lrn2((-1)*self.conv2(Y)))
-        if self.conv3:
-            X = (-1)*self.conv3(X)
-        return F.relu(Y + X)
 
 
 
