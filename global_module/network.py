@@ -99,10 +99,10 @@ class Residual(nn.Module):  # 本类已保存在d2lzh_pytorch包中方便以后�
         self.bn2 = nn.BatchNorm3d(out_channels)
 
     def forward(self, X):
-        Y = F.relu(self.bn1(self.conv1(X)))
-        Y = self.bn2(self.conv2(Y))
+        Y = F.relu(self.bn1((-1)*self.conv1(X)))
+        Y = self.bn2((-1)*self.conv2(Y))
         if self.conv3:
-            X = self.conv3(X)
+            X = (-1)*self.conv3(X)
         return F.relu(Y + X)
 
 
