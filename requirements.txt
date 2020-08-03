@@ -8,3 +8,4 @@ tqdm
 torchvision
 torchtext
 IPython
+ipykernel
