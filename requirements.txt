@@ -5,3 +5,5 @@ torchsummary
 matplotlib
 scipy
 tqdm
+torchvision
+torchtext
