@@ -1,0 +1,7 @@
+numpy
+torch
+scikit-learn
+torchsummary
+matplotlib
+operator
+scipy
